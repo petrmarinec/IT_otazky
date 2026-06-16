@@ -2936,6 +2936,16 @@ Bezpečnostní standardy dávají celé oblasti rámec. ISO/IEC 27001 řeší IS
 
 Celkově tedy řízení aktiv říká, co chráním, analýza rizik říká, před čím a s jakou prioritou, opatření říkají, jak riziko snížím, IAM a ACL řeší, kdo co smí, audit ověřuje, jestli to funguje, a standardy dávají rámec pro řízení a hodnocení bezpečnosti.
 
+\subsection*{Change, configuration, vulnerability a patch management}
+Tyto čtyři provozní procesy spolu úzce souvisí a dohromady udržují systémy v bezpečném a známém stavu; jsou praktickou částí opatření proti rizikům.
+\begin{itemize}
+  \item \textbf{Change management} (řízení změn) -- zajišťuje, že každá změna systému (upgrade, migrace, úprava konfigurace, on/off-boarding zaměstnance) projde kontrolovaně: identifikace, posouzení dopadu a rizik, schválení, dokumentace, test a možnost návratu (rollback). Brání tomu, aby neřízená změna shodila provoz nebo otevřela zranitelnost.
+  \item \textbf{Configuration management} (správa konfigurace) -- udržuje systémy nastavené konzistentně podle známého základu (baseline) a eviduje konfigurační položky a jejich vztahy v databázi \textbf{CMDB}; hlídá \emph{konfigurační drift}, tedy postupné odchýlení od žádoucího nastavení. Špatná konfigurace je častou příčinou incidentů; pomáhají nástroje jako Ansible nebo Terraform.
+  \item \textbf{Vulnerability management} (řízení zranitelností) -- kontinuální cyklus: inventarizace aktiv, pravidelné skenování zranitelností, vyhodnocení a prioritizace, náprava a ověření. Je zastřešující a opírá se o patch management, správu konfigurace, SIEM, penetrační testy a threat intelligence.
+  \item \textbf{Patch management} (správa záplat) -- konkrétní část předchozího: identifikace dostupných záplat, jejich otestování, nasazení a sledování účinnosti. Když záplata není k dispozici, jsou tři možnosti: nasadit ji, zavést kompenzační opatření, nebo riziko vědomě akceptovat.
+\end{itemize}
+Jak to spolu souvisí: \textbf{vulnerability management} řekne, \emph{co je zranitelné a jak naléhavé to je}, \textbf{patch management} a \textbf{configuration management} to napraví (záplatou nebo bezpečným nastavením) a \textbf{change management} dohlíží, aby se náprava i každá jiná úprava provedla kontrolovaně a bezpečně.
+
 \subsection*{Co je hrozba?}
 
 Hrozba je možná příčina incidentu, například malware, phishing, zneužití identity, chyba administrátora, výpadek elektřiny nebo fyzická krádež zařízení.
