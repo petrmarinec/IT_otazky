@@ -3168,6 +3168,16 @@ Linux \textbf{capabilities} rozdělují moc roota na menší oprávnění, např
 
 SELinux může běžet v enforcing režimu, kdy politiku vynucuje, nebo permissive režimu, kdy porušení jen loguje.
 
+\begin{notebox}
+\textbf{PAM, AppArmor a SELinux} -- tři linuxové bezpečnostní mechanismy na různých úrovních:
+\begin{itemize}
+  \item \textbf{PAM (Pluggable Authentication Modules)} -- modulární \emph{autentizační} rámec; řeší, \emph{kdo se přihlašuje}: ověření hesla, vícefaktor, politiku hesel, omezení relace a správu účtů. Aplikace (login, sshd, sudo) nevolají autentizaci přímo, ale přes PAM, takže se chování mění konfigurací (\texttt{/etc/pam.d/}) bez úpravy programu. \textbf{Příklad:} vynutit silná hesla (\texttt{pam\_pwquality}), zamknout účet po několika neúspěšných pokusech (\texttt{pam\_faillock}) nebo přidat OTP/MFA k SSH.
+  \item \textbf{AppArmor} -- \emph{MAC} (povinné řízení přístupu) přes \textbf{profily vázané na cestu k programu}. Pro každý program profil určuje, k jakým souborům, schopnostem a síti smí. Snáz se píše a čte, ale je vázaný na cesty. \textbf{Příklad:} profil pro Nginx, který mu dovolí číst jen webový kořen a logy a zbytek zakáže; výchozí v Ubuntu a SUSE.
+  \item \textbf{SELinux} -- \emph{MAC} přes \textbf{labely (kontext identita:role:typ)} a typovou politiku, kontrolovanou při každém systémovém volání bezpečnostním serverem v jádře. Je jemnější a silnější, ale složitější na správu; má režim \emph{enforcing} a \emph{permissive}. \textbf{Příklad:} type enforcement, kdy webový proces (\texttt{httpd\_t}) smí číst jen soubory typu \texttt{httpd\_sys\_content\_t}; výchozí v RHEL, Fedoře a Androidu.
+\end{itemize}
+\textbf{Jak se liší:} PAM řeší \emph{autentizaci} (vstup do systému), kdežto AppArmor i SELinux řeší \emph{autorizaci běžících procesů} (co smí program dělat) jako MAC nad běžnými unixovými právy. AppArmor confinuje podle \textbf{cesty k souboru} (jednodušší, méně jemné), SELinux podle \textbf{labelů a typů} (jemnější a robustnější, ale náročnější na nastavení). AppArmor i SELinux jsou implementované jako LSM (Linux Security Modules) a obvykle se používá jen jeden z nich.
+\end{notebox}
+
 Ve Windows jsou ACL jemnější a umožňují například číst atributy, zapisovat atributy, měnit oprávnění, převzít vlastnictví, mazat a auditovat úspěšné i neúspěšné pokusy o přístup. UAC snižuje riziko trvalé práce s administrátorskými právy tím, že administrátorské akce vyžadují potvrzení. I tady ale platí, že uživatelé a administrátoři by neměli pracovat trvale pod privilegovaným účtem.
 
 Spouštění nedůvěryhodného kódu se řeší kombinací více opatření: ověřování původu kódu, například digitálním podpisem, antivirová a \textbf{EDR} kontrola, běh s minimálními právy, sandbox, omezené prostředí, aplikační whitelisting a oddělení procesů. Hardware podporuje bezpečnost například režimy procesoru, rings of protection, ochranu paměti a oddělení uživatelského a kernelového režimu.
