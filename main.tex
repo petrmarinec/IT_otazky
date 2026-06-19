@@ -640,13 +640,21 @@ Když se zeptá, co je ovladač, odpověď je: systémový software pro komunika
 
 \otazka{3. Souborové systémy}{Blokové zařízení, bloková vrstva, I/O plánovač, RAID, šifrování disku. Obyčejné soubory, alokace volného místa, fragmentace. Adresářová struktura a její reprezentace na disku. Vstup a výstup mapovaný do paměti.}{PB152, PV004}
 
+\subsection*{Co je souborový systém}
+Souborový systém je způsob organizace dat na úložišti a zároveň vrstva operačního systému, která tato data zpřístupňuje. Dá se na něj dívat ze dvou úhlů:
+\begin{itemize}
+  \item \textbf{Z pohledu disku (úložiště)} je souborový systém konkrétní \textbf{datová struktura na blokovém zařízení} -- pravidla a metadata, která určují, jak jsou na fyzických blocích uložené soubory, adresáře, volné místo a informace o nich (například superblok, i-uzly, datové bloky a bitmapy). Samotný disk umí jen číst a zapisovat očíslované bloky; teprve souborový systém jim dává smysl.
+  \item \textbf{Z pohledu operačního systému} je souborový systém \textbf{abstrakce}, která uživateli a programům dává pohodlnou iluzi pojmenovaných souborů uspořádaných ve stromu adresářů, s jednotným rozhraním (open, read, write, close) a s přístupovými právy, i když pod tím leží jen bloky na disku.
+\end{itemize}
+Zjednodušeně: na disku je souborový systém \emph{formát a metadata}, v operačním systému \emph{služba a rozhraní}, které z očíslovaných bloků dělají soubory a adresáře. Konkrétními souborovými systémy jsou například FAT, ext4 nebo NTFS.
+
 \subsection*{3. Souborové systémy}
 
 Souvislý text k opakování: bloková zařízení, \textbf{bloková vrstva}, \textbf{I/O plánovač}, \textbf{RAID}, šifrování, soubory, alokace, \textbf{fragmentace}, adresáře na disku a \textbf{mmap}
 
 \subsection*{Souborový systém jako příběh od programu k disku}
 
-uložena jako pojmenované soubory v adresářích. Reálně je pod tím ale úložiště, které umí číst a zapisovat bloky.
+Souborový systém dává uživateli a programům pohodlnou iluzi, že data jsou uložena jako pojmenované soubory v adresářích. Reálně je pod tím ale úložiště, které umí číst a zapisovat bloky.
 
 Smysl celé otázky je umět propojit několik vrstev: aplikace používá systémová volání jako open, read, write, close nebo mmap; jádro přes VFS a konkrétní ovladač souborového systému najde metadata souboru; bloková vrstva z toho udělá požadavky na \textbf{blokové zařízení}; I/O plánovač může požadavky seřadit; a ovladač zařízení nakonec komunikuje s diskem, \textbf{SSD} nebo RAID polem.
 
@@ -2589,7 +2597,7 @@ Silnější autentizace strojů používá kryptografické tajemství. Typickým
 
 Pokud by se klient autentizoval heslem, heslo se posílá až uvnitř zabezpečeného kanálu po autentizaci serveru a ustanovení klíčů relace.
 
-Další základní protokol je \textbf{TLS}. V běžném \textbf{HTTPS} se autentizuje hlavně server. Server pošle certifikát, klient ověří, zda certifikát platí, zda ho vydala důvěryhodná certifikační autorita a zda odpovídá jménu serveru. Potom se v handshaku ustanoví symetrický klíč pro rychlé šifrování komunikace. TLS tak typicky poskytuje autentizaci serveru, důvěrnost a integritu přenosu.
+Další základní protokol je \textbf{TLS}. V běžném \textbf{HTTPS} se autentizuje hlavně server. Server pošle certifikát, klient ověří, zda certifikát platí, zda ho vydala důvěryhodná certifikační autorita a zda odpovídá jménu serveru. Potom se v handshaku ustanoví symetrický klíč pro rychlé šifrování komunikace. TLS tak typicky poskytuje autentizaci serveru, důvěrnost a integritu přenosu. U novějšího \textbf{TLS 1.3} je to už jinak: pro výměnu klíčů se používá efemérní \textbf{ECDHE}, takže dlouhodobý klíč z certifikátu slouží jen k autentizaci serveru, ale už ne k odvození symetrického klíče relace -- ten vzniká z čerstvých efemérních klíčů. Díky tomu má TLS 1.3 \textbf{forward secrecy} (z později prozrazeného dlouhodobého klíče nejde zpětně dešifrovat dříve zachycený provoz) a zároveň rychlejší handshake (typicky jediný round-trip).
 
 Pokud se použije klientský certifikát, mluvíme o vzájemné autentizaci, tedy \textbf{mTLS}. To se často používá mezi službami, mikroservisami nebo v interních API.
 
@@ -2854,7 +2862,7 @@ Pokud útočník získá \textbf{privilegovaný účet}, často získá kontrolu
 
 Proto se privilegovaní uživatelé musí řídit přísněji než běžní uživatelé. V praxi se používají oddělené běžné a administrátorské účty, MFA pro administrátory, zákaz sdílených admin účtů, princip čtyř očí u kritických operací, \textbf{just-in-time} nebo just-enough administration, \textbf{PAM} nástroje, logování a nahrávání administrátorských relací, pravidelná revize práv a kontrola aktivit privilegovaných účtů.
 
-Důležité je také oddělení rolí: administrátor nemá být zároveň auditor, protože by mohl auditovat vlastní práci a měnit stopy své činnosti.
+Důležité je také oddělení rolí: auditor má být nezávislý a nemá auditovat vlastní práci. Nemá jím proto být ani \textbf{CISO} či bezpečnostní správce (auditoval by oblast, kterou sám navrhuje a řídí), ani \textbf{administrátor} (ten navíc může měnit stopy své činnosti v logu).
 
 Audit je nezávislé ověření, zda bezpečnostní pravidla, procesy a opatření odpovídají požadavkům a zda skutečně fungují. V kontextu ISMS audit neznamená jen technické skenování zranitelností. Důležitá je dokumentace, procesy, odpovědnosti, řízení změn, řízení rizik, evidence aktiv, řízení přístupů a skutečné fungování opatření v praxi. Audit tedy odpovídá na otázku, jestli je bezpečnost řízena a zda se deklarovaná pravidla opravdu dodržují.
 
