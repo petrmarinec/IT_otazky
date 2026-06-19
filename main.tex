@@ -202,6 +202,8 @@ Praktické pravidlo pro sčítání ve dvojkovém doplňku je: když sčítám d
 \bottomrule
 \end{longtable}
 
+\itpr{\textbf{Hardwarové pravidlo XOR pro dvojkový doplněk:} overflow nastane tehdy, když se \textbf{přenos do znaménkového bitu} liší od \textbf{přenosu ze znaménkového bitu ven}. Jinak řečeno: \textbf{overflow = carry-in do MSB XOR carry-out z MSB}. Když jsou oba přenosy stejné, například 1 a 1, přetečení nenastane, i když ven z nejvyššího bitu nějaký přenos vznikl. Proto se u dvojkového doplňku samotný carry-out ignoruje; rozhoduje rozdíl mezi přenosem dovnitř a ven.}
+
 \itzk{\textbf{Na zkoušku:} umět ručně vytvořit záporné číslo ve dvojkovém doplňku, spočítat malé odčítání ve 4 bitech a vysvětlit overflow na příkladu 5 + 4 nebo 6 + 3.}
 
 \subsection*{5. Reálná čísla a IEEE 754}
