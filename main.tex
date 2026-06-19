@@ -52,6 +52,15 @@
   innertopmargin=3pt, innerbottommargin=3pt
 ]{codebox}
 
+\newmdenv[
+  backgroundcolor=blue!4,
+  linecolor=blue!30,
+  linewidth=0.5pt,
+  skipabove=8pt, skipbelow=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=5pt, innerbottommargin=5pt
+]{notebox}
+
 \title{IT státnice: okruhy 1--12\\\large Rozšířené opakovací poznámky k odborným otázkám}
 \author{Petr Mařinec}
 \date{Aktualizováno \today}
@@ -2036,6 +2045,17 @@ Další UML diagramy doplňují pohled na strukturu systému. Component diagram 
 Vedle UML se často používá ER diagram pro databázový návrh. Ten modeluje entity, atributy a vztahy a je přirozeným mostem mezi analýzou domény a relační databází. Z ER diagramu se na relační model přechází tak, že z entit vzniknou tabulky, z atributů sloupce, identifikátor se stane primárním klíčem a vztah 1:N se realizuje cizím klíčem na straně N (vztah M:N samostatnou spojovací tabulkou). Rozdíl proti UML class diagramu je, že ER popisuje čistě data a databázový návrh, kdežto class diagram modeluje i chování (metody) objektů. U bezpečnostních a integračních analýz se také používá DFD, tedy diagram toků dat, protože jasně ukazuje, kudy data tečou a kde vznikají hranice důvěry.
 
 \subsection*{Testování, statická analýza a údržba}
+
+\begin{notebox}
+\textbf{Shrnutí k zapamatování: testování, údržba a komunikace se zákazníkem}
+\begin{itemize}
+  \item \textbf{Údržba (maintenance)} -- \textbf{corrective} (oprava chyb), \textbf{adaptive} (přizpůsobení novému prostředí, OS, knihovnám, legislativě), \textbf{evolutionary/perfective} (nové a vylepšené funkce) a \textbf{preventive} (refaktoring, snižování technického dluhu). Probíhá ve fázích evolution, servicing a phase-out a u zakázkových systémů často stojí víc než původní vývoj.
+  \item \textbf{Testování (úrovně)} -- \textbf{unit} (jednotky, metody/třídy), \textbf{integrační} (spolupráce komponent a rozhraní), \textbf{systémové} (celek proti požadavkům) a \textbf{akceptační} (zákazník dílo přebírá); navíc \textbf{regresní} testy hlídají, že nová změna nerozbila dříve funkční chování. Testování prokazuje přítomnost chyb, ne jejich nepřítomnost.
+  \item \textbf{Mockup / mock testing} -- \textbf{mock} je náhrada reálné závislosti (databáze, externí služba, platební brána) připravená tak, aby vracela předem dané odpovědi. Umožní otestovat jednotku \textbf{izolovaně, rychle a opakovatelně}, bez volání skutečných systémů a bez vedlejších efektů.
+  \item \textbf{Když zákazník hlásí chybu}, programátor potřebuje vědět: přesné \textbf{kroky reprodukce}, \textbf{očekávané vs. skutečné chování}, čas výskytu, \textbf{prostředí} (OS, verze, prohlížeč), roli/účet uživatele, vstupní data, \textbf{screenshot nebo log}, závažnost a zda je chyba \textbf{opakovatelná}. Bez spolehlivé reprodukce se chyba těžko opravuje.
+  \item \textbf{Než začne něco programovat}, programátor chce od zákazníka: jasné \textbf{funkční i nefunkční požadavky}, účel a cílové uživatele, \textbf{akceptační kritéria} (podle čeho se pozná, že je hotovo), rozsah a priority, datový model a \textbf{integrace} (s jakými systémy se komunikuje), \textbf{omezení} (výkon, bezpečnost, legislativa, termín, rozpočet) a přístup k prostředí i \textbf{kontaktní osobu}, která zodpoví dotazy.
+\end{itemize}
+\end{notebox}
 
 Testování je proces, kterým zjišťujeme, zda systém dělá to, co má, a zda se v něm nacházejí chyby. Důležité je říct, že testování prokazuje přítomnost chyb, ne jejich nepřítomnost. Vývojové testování probíhá během vývoje. Unit testy ověřují malé jednotky, typicky metody nebo třídy. Dobrý automatizovaný test má přípravu dat, provedení akce a ověření výsledku.
 
