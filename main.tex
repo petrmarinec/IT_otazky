@@ -1027,6 +1027,22 @@ IPv4 adresace se historicky dělila do tříd, ale dnes je důležitější clas
 
 Subnetting dělí síť na podsítě, \textbf{supernetting}/agregace spojuje sousední bloky kvůli menším směrovacím tabulkám. \textbf{NAT} překládá privátní adresy a porty na veřejnou adresu, takže více zařízení v domácí síti může sdílet jednu veřejnou IPv4 adresu.
 
+\itbox{\textbf{Privátní IPv4 rozsahy podle RFC 1918:} do Internetu se přímo nesměrují a typicky se používají za NATem. Rychlá pomůcka je pamatovat si tři starty: \textbf{10, 172, 192}.}
+
+\begin{longtable}{p{0.22\linewidth}p{0.25\linewidth}p{0.46\linewidth}}
+\toprule
+\textbf{Pomůcka} & \textbf{CIDR rozsah} & \textbf{Jak si to zapamatovat} \\
+\midrule\endhead
+\textbf{Obří krabice} & \texttt{10.0.0.0/8} & Jakmile IPv4 adresa začíná na \textbf{10.}, je privátní. Hodí se pro velké organizace, laboratoře nebo rozsáhlé interní sítě. \\
+\addlinespace
+\textbf{Střední firemní krabice} & \texttt{172.16.0.0/12} & Začíná na \textbf{172.16.} až \textbf{172.31.}. Nestačí vidět číslo 172 někde v adrese; rozhoduje začátek a rozsah druhého oktetu 16--31. \\
+\addlinespace
+\textbf{Domácí krabice} & \texttt{192.168.0.0/16} & Klasické domácí routery: například \texttt{192.168.0.1} nebo \texttt{192.168.1.1}. Privátní je ale právě \textbf{192.168.*.*}, ne libovolná adresa začínající 192. \\
+\bottomrule
+\end{longtable}
+
+\itpr{\textbf{Rychlý test:} \texttt{8.8.8.8} nezačíná na 10, 172.16--31 ani 192.168, takže je veřejná. \texttt{77.75.75.172} má sice na konci 172, ale nezačíná privátním rozsahem, takže je veřejná. \texttt{10.150.12.3} začíná na 10, takže je privátní.}
+
 IPv6 rozšiřuje adresní prostor, nemá \textbf{broadcast} a místo něj používá multicastové skupiny; přidává také \textbf{anycast}, kde se data doručí nejbližšímu členovi skupiny.
 
 \textbf{ARP} slouží u IPv4 ke zjištění MAC adresy pro známou IP adresu v lokální síti. Pokud chce host poslat paket na IP v jiné síti, nehledá MAC cílového serveru, ale MAC své default gateway. Pošle ARP request broadcastem: kdo má IP 192.168.1.1? Odpoví pouze zařízení s touto IP a pošle ARP reply se svou MAC adresou.
