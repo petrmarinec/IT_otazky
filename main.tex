@@ -3178,6 +3178,17 @@ SELinux může běžet v enforcing režimu, kdy politiku vynucuje, nebo permissi
 \textbf{Jak se liší:} PAM řeší \emph{autentizaci} (vstup do systému), kdežto AppArmor i SELinux řeší \emph{autorizaci běžících procesů} (co smí program dělat) jako MAC nad běžnými unixovými právy. AppArmor confinuje podle \textbf{cesty k souboru} (jednodušší, méně jemné), SELinux podle \textbf{labelů a typů} (jemnější a robustnější, ale náročnější na nastavení). AppArmor i SELinux jsou implementované jako LSM (Linux Security Modules) a obvykle se používá jen jeden z nich.
 \end{notebox}
 
+\begin{notebox}
+\textbf{Omezení a kontrola účtu root} -- jak v praxi zkrotit všemocného roota:
+\begin{itemize}
+  \item \textbf{Zákaz přímého přihlášení za root} -- přímé přihlášení roota (přes SSH i u konzole) se zakáže; správci se přihlašují pod osobními účty (např. \texttt{jan}) a správcovské zásahy dělají přes \texttt{sudo}. Výhoda: v logu je pak vidět, který konkrétní člověk příkaz spustil.
+  \item \textbf{Jemná pravidla v sudo} -- \texttt{sudo} nemusí znamenat \emph{povolit úplně všechno}; v souboru \texttt{/etc/sudoers} lze nastavit velmi detailní pravidla. Příklad: juniorní správce smí spustit jen \texttt{systemctl restart nginx}, ale ne smazat disk ani měnit hesla.
+  \item \textbf{SELinux jako jediný skutečný limit roota} -- tradiční DAC běžícímu rootovi nezabrání v ničem, kdežto SELinux (MAC) stojí \emph{nad} rootem. Příklad: když útočník získá root přes chybu v Apache, SELinux vidí, že proces má jen štítek \emph{webový server}, a podle politiky mu nedovolí číst \texttt{/root/} ani měnit firewall -- root má v tom případě smůlu.
+  \item \textbf{Linux Capabilities} -- moc roota je rozdělená na desítky drobných schopností, které lze procesu udělit jednotlivě. Příklad: program pro synchronizaci času (NTP) nemusí běžet jako plný root; stačí mu jediná schopnost \texttt{CAP\_SYS\_TIME} -- může měnit systémový čas, ale ne mazat soubory ani restartovat stroj.
+  \item \textbf{Kernel Lockdown} -- moderní jádra mají režim lockdown: ani root pak nesmí měnit paměť běžícího jádra ani obcházet Secure Boot. Brání to tomu, aby root nasadil do jádra hluboko skrytý rootkit.
+\end{itemize}
+\end{notebox}
+
 Ve Windows jsou ACL jemnější a umožňují například číst atributy, zapisovat atributy, měnit oprávnění, převzít vlastnictví, mazat a auditovat úspěšné i neúspěšné pokusy o přístup. UAC snižuje riziko trvalé práce s administrátorskými právy tím, že administrátorské akce vyžadují potvrzení. I tady ale platí, že uživatelé a administrátoři by neměli pracovat trvale pod privilegovaným účtem.
 
 Spouštění nedůvěryhodného kódu se řeší kombinací více opatření: ověřování původu kódu, například digitálním podpisem, antivirová a \textbf{EDR} kontrola, běh s minimálními právy, sandbox, omezené prostředí, aplikační whitelisting a oddělení procesů. Hardware podporuje bezpečnost například režimy procesoru, rings of protection, ochranu paměti a oddělení uživatelského a kernelového režimu.
