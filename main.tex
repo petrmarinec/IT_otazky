@@ -2598,6 +2598,20 @@ Proto symetrický MAC obvykle nezajišťuje \textbf{nepopiratelnost} vůči tře
 
 U asymetrického challenge-response protokolu má autentizovaná strana \textbf{soukromý klíč} a ověřovatel zná odpovídající veřejný klíč. Ověřovatel pošle nonce a subjekt ji podepíše soukromým klíčem. Ověřovatel podpis ověří veřejným klíčem. Tím se dokazuje držení soukromého klíče bez jeho odhalení. Tento princip je typický pro \textbf{SSH} klíče, klientské certifikáty, čipové karty, FIDO tokeny nebo podepisování dat.
 
+\itpr{\textbf{Mini box: challenge-response může být symetrický i asymetrický.} Pointa není konkrétní algoritmus, ale čerstvá výzva a odpověď, kterou útočník neumí znovu použít.}
+
+\begin{longtable}{p{0.23\linewidth}p{0.39\linewidth}p{0.31\linewidth}}
+\toprule
+\textbf{Varianta} & \textbf{Jak vzniká odpověď} & \textbf{Příklady a rizika} \\
+\midrule\endhead
+\textbf{Symetrická} & Klient i server znají stejné tajemství. Server pošle nonce, klient spočítá odpověď typicky jako \textbf{HMAC/MAC} z výzvy a sdíleného klíče, server spočítá totéž a porovná. & CHAP, NTLM, některé tokeny. Výhoda: rychlé a jednoduché. Nevýhoda: server musí mít tajemství nebo ekvivalentní ověřovací hodnotu; únik databáze může být vážný. \\
+\addlinespace
+\textbf{Asymetrická} & Server zná jen veřejný klíč klienta. Pošle nonce, klient ji \textbf{podepíše soukromým klíčem} a server podpis ověří veřejným klíčem. & SSH klíče, klientské certifikáty, čipové karty, FIDO2/WebAuthn/YubiKey. Výhoda: server neukládá soukromé tajemství klienta. \\
+\addlinespace
+\textbf{TOTP} & Je to symetrický princip, ale výzvou není náhodné číslo ze serveru, nýbrž \textbf{aktuální časový blok}, typicky 30 sekund. Mobil i server mají stejný seed a z času počítají kód přes HMAC, často HMAC-SHA1. & Google Authenticator, Microsoft Authenticator apod. Riziko: pokud útočník ukradne TOTP seed ze serveru nebo zařízení, umí generovat stejné kódy. \\
+\bottomrule
+\end{longtable}
+
 Ještě dál jdou zero-knowledge protokoly, kde jedna strana prokáže, že zná určitou informaci, aniž by ji přímo odhalila. Myšlenka je podobná: neukazovat tajemství, ale prokázat schopnost odpovědět na náhodné testy. Opakováním protokolu klesá pravděpodobnost, že by podvodník uspěl náhodou.
 
 \subsection*{4. Biometrické metody autentizace}
