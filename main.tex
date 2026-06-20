@@ -219,7 +219,7 @@ Proto u floating point aritmetiky vznikají zaokrouhlovací chyby. U zkoušky ob
 
 \subsection*{6. Kódy: vnitřní, vnější, detekční a opravné}
 
-Kód je pravidlo, podle kterého se informace převádí na posloupnost bitů. Vnitřní kódy slouží pro reprezentaci dat uvnitř počítače. Patří sem například dvojkový doplněk pro celá čísla, IEEE 754 pro reálná čísla a také \textbf{BCD}. Vnější kódy se používají hlavně pro reprezentaci znaků a výměnu dat s okolím, například \textbf{ASCII}, Windows-1250 nebo \textbf{Unicode} v konkrétním kódování \textbf{UTF-8}.
+Kód je pravidlo, podle kterého se informace převádí na posloupnost bitů. Vnitřní kódy slouží pro reprezentaci dat uvnitř počítače. Patří sem například dvojkový doplněk pro celá čísla, IEEE 754 pro reálná čísla a také \textbf{BCD}. Vnější kódy se používají hlavně pro reprezentaci znaků a výměnu dat s okolím, například \textbf{ASCII}, Windows-1250 nebo \textbf{Unicode} v konkrétním kódování \textbf{UTF-8}. Vnější kód je tedy výměnný formát: převádí lidsky chápané znaky na konkrétní sekvence bajtů v souboru, síti, webu nebo databázi, aby si různé systémy stejný text vyložily stejně.
 
 BCD znamená Binary Coded Decimal. Každá desítková číslice se kóduje samostatně čtyřmi bity. Například číslo 259 není v BCD převedeno jako celé číslo do dvojkové soustavy, ale jako 2 = 0010, 5 = 0101, 9 = 1001, tedy 0010 0101 1001. To je důležitý rozdíl. BCD je méně úsporné než čistý binární zápis, protože čtyři bity dávají šestnáct kombinací, ale pro číslici 0 až 9 se jich používá jen deset.
 
@@ -1511,6 +1511,8 @@ Text segment obsahuje strojové instrukce programu. Tam leží kód funkcí, nap
 
 Read-only data obsahují konstanty a často string literály, například text "ahoj". Data segment obsahuje inicializované globální a statické proměnné, například globální int nastavený na 10. BSS obsahuje globální a statické proměnné bez explicitní inicializace nebo inicializované nulou; při startu programu jsou vynulovány.
 
+\itpr{\textbf{Mini pomůcka: .data vs. .bss.} \textbf{.data} obsahuje globální/statické proměnné s konkrétní počáteční hodnotou, takže tato hodnota musí být uložená i v programu na disku. \textbf{.bss} obsahuje proměnné nulové nebo bez explicitní inicializace; v souboru je hlavně informace o velikosti tohoto bloku a loader při spuštění vyhradí RAM a celý blok vynuluje. Tím se šetří hlavně místo v souboru na disku, ne RAM za běhu. Jakmile program běží, .data i .bss jsou normální zapisovatelná paměť a proměnná z .bss se po změně chová úplně stejně jako jiná globální proměnná.}
+
 Stack neboli zásobník slouží hlavně pro volání funkcí. Při volání funkce vznikne stack frame, kde jsou lokální automatické proměnné, parametry, návratová adresa a často uložený stav předchozího rámce. Po návratu z funkce se její rámec zruší, a tím zaniknou její lokální proměnné. Heap neboli halda je oblast pro dynamickou alokaci. Pokud zavolám \textbf{malloc}, dostanu adresu bloku na heapu.
 
 Tento blok nezanikne návratem z funkce, ale až tehdy, když ho explicitně uvolním pomocí free.
@@ -1635,6 +1637,8 @@ int *p = &x;
 *p = 20;     /* meni x na 20 */
 \end{verbatim}
 \end{codebox}
+
+\itpr{\textbf{Mini pomůcka k ukazatelům:} \texttt{p} je adresa, \texttt{*p} je objekt na této adrese. Když je \texttt{*p} vpravo od rovnítka, hodnotu čtu: \texttt{int y = *p;} vezme obsah krabičky. Když je \texttt{*p} vlevo od rovnítka, na tuto adresu zapisuji: \texttt{*p = 42;} přepíše původní hodnotu objektu. Naopak \texttt{p = 42;} by měnilo samotnou adresu uloženou v ukazateli, tedy kam ukazatel míří, ne hodnotu původní proměnné.}
 
 Je potřeba přesně rozlišovat p, *p a \&p.; Samotné p je hodnota ukazatele, tedy adresa proměnné x. Výraz *p je hodnota objektu, na který p ukazuje. Výraz \&p; je adresa samotné proměnné p. Velikost pointeru není velikost objektu, na který ukazuje. Na běžném 64bitovém systému má ukazatel často 8 bajtů, ale int, double nebo struktura mohou mít jiné velikosti.
 
