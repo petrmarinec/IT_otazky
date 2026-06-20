@@ -9,6 +9,7 @@
 \usepackage{array}
 \usepackage{longtable}
 \usepackage{booktabs}
+\usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{verbatim}
 \usepackage[framemethod=default]{mdframed}
@@ -1388,6 +1389,12 @@ MD5 je prolomená, běžnější bezpečná volba je SHA-256/SHA-3; pro ukládá
 Zabezpečení lze realizovat na různých vrstvách. Na síťové vrstvě je typickým příkladem \textbf{IPsec}. IPsec je sada protokolů pro zabezpečení IP komunikace. Authentication Header poskytuje autentizaci a integritu, Encapsulating Security Payload poskytuje důvěrnost šifrováním a může poskytovat i integritu/autentizaci.
 
 IPsec má transportní režim, kde se zabezpečuje payload IP paketu mezi koncovými uzly, a tunelový režim, kde se celý původní IP paket zabalí do nového IP paketu. Tunelový režim je typický pro VPN mezi sítěmi nebo klientem a sítí.
+
+\begin{center}
+\includegraphics[width=0.86\linewidth]{assets/ipsec_ah_esp_modes.png}
+
+\small\textit{Schéma AH a ESP režimů: AH hlavně autentizuje/integritně chrání, ESP přidává šifrování payloadu; transportní režim chrání původní paket mezi konci, tunelový režim zabalí celý původní IP paket do nového.}
+\end{center}
 
 TLS se nachází prakticky mezi transportní a aplikační vrstvou: běží nad TCP a poskytuje bezpečný kanál aplikačním protokolům. Proto vzniká HTTP na HTTPS, FTP na FTPS, případně zabezpečené varianty poštovních protokolů. TLS chrání komunikaci mezi dvěma koncovými body TLS spojení, ověřuje typicky server pomocí certifikátu a po handshake šifruje symetrickým klíčem.
 
