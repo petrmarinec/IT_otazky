@@ -2808,6 +2808,249 @@ Když se ptají na čerstvost, řekni nonce, sekvence nebo timestamp. Když se p
 
 \otazka{11. Analýza a řízení rizik}{Asset management, analýza rizik, opatření proti rizikům a jejich účinnost. Řízení identity a přístupu, ACL, privilegovaní uživatelé. Audit, bezpečnostní standardy, hodnocení bezpečnosti.}{PV080, PV157, PV017}
 
+\itbox{\textbf{Jak tuhle otázku říct u státnic:} nejdřív ukážu logiku \textbf{aktivum -> hrozba -> zranitelnost -> dopad -> riziko -> opatření -> zbytkové riziko}. Potom vysvětlím, jak se rizika snižují, jak do toho patří identity a přístupy, proč jsou privilegované účty nejcitlivější a jak se bezpečnost ověřuje auditem, standardy a hodnocením.}
+
+\subsection*{0. Kostra celé odpovědi}
+
+\begin{itemize}
+    \item \textbf{Asset management}: musím vědět, co chráním, kdo za to odpovídá, jakou to má hodnotu a na čem to závisí.
+    \item \textbf{Analýza rizik}: z aktiv, hrozeb, zranitelností a dopadů určím, jak velké riziko organizace má.
+    \item \textbf{Řízení rizik}: riziko snížím, přenesu, přijmu, sleduji, nebo se mu vyhnu.
+    \item \textbf{Účinnost opatření}: opatření nestačí mít napsané; musí být zavedené, testované a provozně funkční.
+    \item \textbf{IAM, ACL, privilegovaní uživatelé}: řídím, kdo je kdo, k čemu má přístup a jak se hlídají silná oprávnění.
+    \item \textbf{Audit a standardy}: nezávisle ověřuji, jestli bezpečnost odpovídá pravidlům, normám a reálným rizikům.
+\end{itemize}
+
+\subsection*{1. Asset management}
+
+\textbf{Asset management} je evidence a řízení aktiv. Aktivum je cokoliv, co má pro organizaci hodnotu a co může být poškozeno ztrátou důvěrnosti, integrity nebo dostupnosti.
+
+\begin{longtable}{p{0.22\linewidth}p{0.35\linewidth}p{0.36\linewidth}}
+\toprule
+\textbf{Typ aktiva} & \textbf{Co sem patří} & \textbf{Proč je to důležité} \\
+\midrule\endhead
+Primární aktiva & informace a služby, např. databáze klientů, platební systém, e-mail, interní IS & přímo nesou hodnotu pro organizaci; jejich výpadek nebo únik bolí nejvíc \\
+\addlinespace
+Podpůrná aktiva & servery, sítě, aplikace, lidé, dodavatelé, budovy, cloud, zálohy & umožňují fungování primárních aktiv; jejich selhání ohrozí službu nebo data \\
+\bottomrule
+\end{longtable}
+
+U každého důležitého aktiva má být jasné:
+\begin{itemize}
+    \item \textbf{vlastník/garant aktiva} - určuje hodnotu, požadavky a přijatelné riziko,
+    \item \textbf{technický správce} - provozuje systém, ale nemusí rozhodovat o obchodním významu,
+    \item \textbf{hodnota aktiva} z pohledu důvěrnosti, integrity a dostupnosti,
+    \item \textbf{vazby na jiná aktiva} - například aplikace závisí na databázi, síti, identitním systému a cloudu,
+    \item \textbf{životní cyklus} - pořízení, provoz, změny, vyřazení a bezpečná likvidace.
+\end{itemize}
+
+\itpr{\textbf{Praktický příklad:} Internetové bankovnictví není jen jedna aplikace. Primárním aktivem je služba a klientská data. Podpůrná aktiva jsou servery, databáze, autentizační systém, síť, administrátoři, dodavatelé a monitoring. Když není evidence aktiv, organizace často zjistí závislosti až při incidentu.}
+
+U dostupnosti se často používají hodnoty \textbf{RTO} a \textbf{RPO}. RTO říká, za jak dlouho musí být služba obnovena. RPO říká, kolik dat si organizace může dovolit ztratit. Pokud má služba RTO 2 hodiny a RPO 15 minut, musí tomu odpovídat zálohování, replikace i havarijní plán.
+
+\subsection*{2. Analýza rizik}
+
+Analýza rizik odpovídá na otázku: \textbf{co se může stát, proč se to může stát, jak pravděpodobné to je a jaký by byl dopad}. Riziko obvykle chápeme jako kombinaci pravděpodobnosti a dopadu.
+
+\begin{longtable}{p{0.18\linewidth}p{0.38\linewidth}p{0.37\linewidth}}
+\toprule
+\textbf{Pojem} & \textbf{Význam} & \textbf{Příklad} \\
+\midrule\endhead
+Aktivum & hodnota, kterou chráním & databáze osobních údajů \\
+Hrozba & co se může stát & phishing, malware, insider, výpadek proudu \\
+Původce hrozby & kdo nebo co hrozbu způsobí & externí útočník, APT, zaměstnanec, dodavatel, chyba správce \\
+Zranitelnost & slabina, kterou lze zneužít & slabé heslo, chybějící patch, špatná konfigurace, absence školení \\
+Dopad & škoda pro organizaci & únik dat, výpadek služby, pokuta, reputační škoda \\
+Riziko & kombinace pravděpodobnosti a dopadu & únik dat kvůli slabému řízení přístupů \\
+\bottomrule
+\end{longtable}
+
+\textbf{Hrozba není totéž co zranitelnost.} Hrozba je například phishingová kampaň. Zranitelnost je to, že uživatelé nejsou školení, chybí MFA nebo lze poslat podvržený e-mail. Dopad je únik účtů nebo kompromitace systému. Riziko je až celá kombinace dohromady.
+
+\subsection*{Kvalitativní a kvantitativní analýza}
+
+\begin{longtable}{p{0.23\linewidth}p{0.36\linewidth}p{0.34\linewidth}}
+\toprule
+\textbf{Přístup} & \textbf{Jak funguje} & \textbf{Kdy se hodí} \\
+\midrule\endhead
+Kvalitativní analýza & používá slovní nebo bodové stupnice, např. nízké, střední, vysoké, kritické riziko & nejběžnější v kyberbezpečnosti; rychlá a srozumitelná pro management \\
+\addlinespace
+Kvantitativní analýza & počítá peněžní nebo číselné hodnoty, typicky \textbf{SLE}, \textbf{ARO}, \textbf{ALE} & hodí se tam, kde máme dobrá data o pravděpodobnosti a škodách \\
+\bottomrule
+\end{longtable}
+
+Zjednodušeně: kvalitativně řeknu, že riziko je vysoké, protože pravděpodobnost je střední a dopad kritický. Kvantitativně se pokouším vyjádřit očekávanou roční ztrátu, například \textbf{ALE = SLE x ARO}. U kyberrizik je kvantifikace užitečná, ale často nejistá, protože reputační škodu, ztrátu důvěry nebo regulatorní dopady nejde přesně spočítat.
+
+\subsection*{3. Řízení rizik a opatření}
+
+Po vyhodnocení rizika musí organizace rozhodnout, co s ním udělá.
+
+\begin{longtable}{p{0.22\linewidth}p{0.38\linewidth}p{0.33\linewidth}}
+\toprule
+\textbf{Strategie} & \textbf{Význam} & \textbf{Příklad} \\
+\midrule\endhead
+Snížení rizika & zavedu opatření, která snižují pravděpodobnost nebo dopad & MFA, patch management, segmentace, zálohy \\
+Přenos nebo sdílení & část dopadu přesunu na jiný subjekt & pojištění, smlouva s dodavatelem, outsourcing \\
+Přijetí rizika & riziko vědomě ponechám, pokud je přijatelné & nízké riziko u nekritického systému \\
+Sledování rizika & riziko zatím neřeším technicky, ale pravidelně ho vyhodnocuji & nová zranitelnost bez aktivního zneužití \\
+Vyhnutí se riziku & ukončím činnost, která riziko vytváří & zrušení nebezpečné služby \\
+Eliminace rizika & odstranění rizika úplně; v praxi spíš výjimečné & odstranění nepotřebného systému z provozu \\
+\bottomrule
+\end{longtable}
+
+\textbf{Zbytkové riziko} je riziko, které zůstane po zavedení opatření. Bezpečnost neznamená, že riziko je nulové. Znamená, že je známé, zdůvodněné a přijaté odpovědnou osobou.
+
+\subsection*{Druhy opatření}
+
+\begin{longtable}{p{0.22\linewidth}p{0.34\linewidth}p{0.37\linewidth}}
+\toprule
+\textbf{Dělení} & \textbf{Typ} & \textbf{Příklad} \\
+\midrule\endhead
+Podle účelu & preventivní & MFA, školení, hardening, firewall \\
+Podle účelu & detekční & monitoring, IDS/IPS, SIEM, auditní logy \\
+Podle účelu & reaktivní/nápravné & incident response, obnova ze záloh, izolace napadeného stroje \\
+\addlinespace
+Podle povahy & administrativní & politika hesel, směrnice, školení, proces změn \\
+Podle povahy & technické & šifrování, ACL, EDR, segmentace, zálohování \\
+Podle povahy & fyzické & zámky, čipy, kamerový systém, zabezpečení serverovny \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Účinnost opatření}
+
+Účinnost opatření se nepozná podle toho, že je opatření napsané v politice. Pozná se podle toho, zda reálně snižuje riziko.
+
+\begin{itemize}
+    \item \textbf{Design effectiveness}: opatření je navržené správně vzhledem k riziku.
+    \item \textbf{Operational effectiveness}: opatření skutečně funguje v provozu a lidé ho dodržují.
+    \item \textbf{KPI/KRI}: metriky ukazují výkon opatření nebo úroveň rizika.
+\end{itemize}
+
+\itpr{\textbf{Příklad účinnosti:} Zálohy nejsou účinné jen proto, že existují. Účinné jsou tehdy, když jsou pravidelně vytvářené, chráněné proti smazání, obnovitelné a obnova je testovaná. Stejně ACL nestačí jen nastavit; musí odpovídat rolím a musí se pravidelně revidovat.}
+
+\subsection*{4. Provozní procesy, které snižují rizika}
+
+\begin{itemize}
+    \item \textbf{Change management}: změny se plánují, schvalují, testují, hodnotí se jejich dopad a existuje rollback.
+    \item \textbf{Configuration management}: organizace zná konfigurace systémů, má bezpečné baseline a sleduje odchylky.
+    \item \textbf{Vulnerability management}: identifikuje zranitelnosti, prioritizuje je podle rizika, opravuje je a ověřuje nápravu.
+    \item \textbf{Patch management}: řeší nalezení, testování, nasazení a kontrolu bezpečnostních aktualizací.
+    \item \textbf{Incident management}: připravuje postupy pro detekci, eskalaci, reakci, obnovu a poučení z incidentu.
+\end{itemize}
+
+Když oprava zranitelnosti nejde nasadit hned, organizace musí zvolit náhradní opatření: segmentaci, omezení přístupu, monitoring, vypnutí funkce nebo vědomé přijetí rizika.
+
+\subsection*{5. Řízení identity a přístupu, ACL a privilegovaní uživatelé}
+
+\textbf{IAM} řeší, kdo je uživatel nebo systém, jak se ověřuje, k čemu má přístup a jak se práva mění během životního cyklu. Typický model je \textbf{joiner-mover-leaver}: vznik účtu, změna role a zrušení účtu při odchodu.
+
+\begin{itemize}
+    \item \textbf{Autentizace}: ověření identity, například heslo, MFA, certifikát, token.
+    \item \textbf{Autorizace}: rozhodnutí, k čemu má identita přístup.
+    \item \textbf{Accounting/auditování}: záznam toho, co identita dělala.
+    \item \textbf{Least privilege}: uživatel má jen práva, která opravdu potřebuje.
+    \item \textbf{Need to know}: přístup má jen ten, kdo danou informaci potřebuje pro práci.
+    \item \textbf{Default deny}: co není výslovně povoleno, je zakázáno.
+    \item \textbf{Separation of duties}: citlivé operace nemá dělat jedna osoba sama.
+\end{itemize}
+
+\textbf{ACL} je seznam přístupových práv. U objektu, například souboru, databáze nebo systému, určuje, který subjekt má jaké oprávnění: číst, zapisovat, mazat, spouštět, administrovat. ACL je praktické, ale musí se revidovat; jinak v něm zůstávají stará a nadbytečná práva.
+
+\subsection*{Privilegovaní uživatelé}
+
+Privilegovaní uživatelé jsou administrátoři, root účty, doménoví administrátoři, databázoví správci, cloud admini nebo dodavatelské admin účty. Jsou rizikoví, protože mohou měnit konfiguraci, přidělovat práva, číst citlivá data, vypínat ochrany nebo mazat logy.
+
+Základní opatření pro privilegované účty:
+\begin{itemize}
+    \item oddělený běžný a administrátorský účet,
+    \item MFA pro privilegované přístupy,
+    \item zákaz sdílených admin účtů,
+    \item princip čtyř očí u kritických změn,
+    \item \textbf{PAM} systém, ideálně just-in-time a just-enough administration,
+    \item logování a případně nahrávání administrátorských relací,
+    \item pravidelná revize práv a okamžité odebrání přístupů při odchodu.
+\end{itemize}
+
+\subsection*{6. Audit}
+
+Audit je nezávislé ověření, zda stav bezpečnosti odpovídá stanoveným kritériím. Kritériem může být interní politika, ISO norma, zákon, smlouva, bezpečnostní standard nebo vlastní požadavky organizace.
+
+\begin{itemize}
+    \item \textbf{Interní audit}: provádí ho organizace sama, ale auditor musí být nezávislý na auditované oblasti.
+    \item \textbf{Externí audit}: provádí ho nezávislá třetí strana, často kvůli certifikaci, regulaci nebo smluvním požadavkům.
+    \item \textbf{Důkazní materiál}: dokumentace, konfigurace, logy, rozhovory, pozorování a technické výstupy.
+    \item \textbf{Zjištění}: odchylka od požadavku, slabina nebo nesoulad.
+    \item \textbf{Nápravné opatření}: konkrétní krok, kterým se odstraní příčina zjištění.
+    \item \textbf{Follow-up}: kontrola, že náprava opravdu proběhla.
+\end{itemize}
+
+\itbox{\textbf{Hlavní požadavek na auditora: nezávislost.} Auditor nemá auditovat vlastní práci. Bezpečnostní admin, architekt nebo CISO tedy nemá hodnotit jako nezávislý auditor proces, který sám navrhl nebo provozuje.}
+
+Audit sám o sobě riziko nesnižuje. Riziko se sníží až tehdy, když se zjištění opraví a ověří se účinnost nápravy.
+
+\subsection*{7. Bezpečnostní standardy a hodnocení bezpečnosti}
+
+Standardy dávají společný jazyk, měřítko a rámec pro řízení bezpečnosti. Neřeší jen techniku, ale také odpovědnosti, procesy, dokumentaci, audit a zlepšování.
+
+\begin{longtable}{p{0.24\linewidth}p{0.68\linewidth}}
+\toprule
+\textbf{Standard/rámec} & \textbf{K čemu je dobrý} \\
+\midrule\endhead
+ISO/IEC 27001 & požadavky na systém řízení bezpečnosti informací \textbf{ISMS}; podle této normy lze certifikovat organizaci \\
+ISO/IEC 27002 & katalog bezpečnostních opatření; pomáhá vybírat vhodné kontroly \\
+ISO/IEC 27005 & řízení bezpečnostních rizik \\
+NIST CSF & rámec pro řízení kyberbezpečnosti; pracuje s funkcemi Govern, Identify, Protect, Detect, Respond, Recover \\
+CIS Controls & praktický seznam prioritních bezpečnostních opatření \\
+CIS Benchmarks & bezpečné konfigurace konkrétních systémů a technologií \\
+Common Criteria & hodnocení bezpečnosti konkrétního produktu nebo systému v dané verzi a konfiguraci \\
+\bottomrule
+\end{longtable}
+
+\subsection*{Common Criteria a formy hodnocení}
+
+Common Criteria necertifikuje celou organizaci jako ISO 27001, ale konkrétní produkt nebo systém. Důležité pojmy jsou:
+\begin{itemize}
+    \item \textbf{TOE} - Target of Evaluation, tedy hodnocený produkt nebo systém,
+    \item \textbf{Security Target} - popis bezpečnostních vlastností hodnoceného produktu,
+    \item \textbf{Protection Profile} - obecný profil požadavků pro určitou kategorii produktů,
+    \item \textbf{SFR} - bezpečnostní funkční požadavky,
+    \item \textbf{EAL 1-7} - úroveň důvěry v provedené hodnocení.
+\end{itemize}
+
+Vyšší EAL neznamená automaticky, že produkt je prakticky bezpečnější než jiný. Znamená hlavně větší hloubku a formálnost hodnocení. Certifikace také platí jen pro konkrétní verzi, konfiguraci a rozsah.
+
+Bezpečnost lze hodnotit více způsoby:
+\begin{itemize}
+    \item audit ISMS,
+    \item kontrola souladu s politikami a standardy,
+    \item technická kontrola konfigurace,
+    \item vulnerability scan,
+    \item penetrační test,
+    \item produktová certifikace.
+\end{itemize}
+
+\subsection*{8. Krátká mluvená verze}
+
+Analýza a řízení rizik začíná tím, že organizace ví, jaká má aktiva a kdo za ně odpovídá. U aktiv určí hodnotu z pohledu důvěrnosti, integrity a dostupnosti a popíše vazby na podpůrná aktiva, jako jsou systémy, lidé, sítě a dodavatelé. Potom identifikuje hrozby, původce hrozeb, zranitelnosti a možné dopady. Riziko vzniká jako kombinace pravděpodobnosti a dopadu.
+
+S rizikem lze pracovat různě: snížit ho opatřeními, přenést ho, přijmout ho, sledovat ho nebo se mu vyhnout. Opatření mohou být preventivní, detekční a reaktivní, případně administrativní, technická a fyzická. Důležité je ověřovat jejich účinnost, protože opatření, které existuje jen na papíře, riziko reálně nesnižuje.
+
+Řízení identity a přístupu zajišťuje, aby správná osoba měla správná práva ve správný čas. ACL určuje konkrétní oprávnění k objektům a privilegované účty musí být chráněny přísněji, protože mohou způsobit největší škodu. Audit pak nezávisle ověřuje, zda bezpečnost odpovídá požadavkům. Standardy jako ISO 27001, ISO 27002, NIST CSF nebo CIS Controls dávají rámec pro řízení a hodnocení bezpečnosti.
+
+\subsection*{9. Rychlé zkouškové otázky}
+
+\begin{itemize}
+    \item \textbf{Co je hrozba?} Událost nebo okolnost, která může poškodit aktivum, například malware, phishing, insider nebo výpadek.
+    \item \textbf{Co je zranitelnost?} Slabina, kterou může hrozba využít, například chybějící patch nebo špatně nastavená práva.
+    \item \textbf{Kdy riziko eliminuji?} Jen výjimečně, když odstraním činnost nebo aktivum, které riziko vytváří.
+    \item \textbf{Co je kvalitativní analýza?} Hodnocení pomocí kategorií, typicky nízké/střední/vysoké/kritické.
+    \item \textbf{Co je kvantitativní analýza?} Snaha vyjádřit riziko číselně, například přes SLE, ARO a ALE.
+    \item \textbf{Co je hlavní požadavek na auditora?} Nezávislost na auditované oblasti.
+    \item \textbf{K čemu jsou standardy?} Dávají rámec, měřítko a společný jazyk pro řízení, audit a hodnocení bezpečnosti.
+\end{itemize}
+
+\iffalse
+
 Souvislá státnicová odpověď k otázce: \textbf{asset management}, analýza rizik, opatření, \textbf{IAM}, \textbf{ACL}, privilegovaní uživatelé, audit, standardy a hodnocení bezpečnosti
 
 \itbox{Jak s dokumentem pracovat Text je napsaný jako dlouhá mluvená odpověď. Není to jen seznam pojmů: cílem je, aby šel přečíst jako opakování a zároveň aby pokryl oficiální rozsah i typické dotazy z databáze komisí. Klíčová osa celé otázky je: aktivum -> hrozba -> zranitelnost -> dopad -> riziko -> opatření -> zbytkové riziko.}
@@ -3119,6 +3362,8 @@ Nezávislost. Auditor nemá auditovat vlastní práci a má být oddělený od b
 Dávají rámec, měřítko a společný jazyk. Pomáhají řídit, auditovat a hodnotit bezpečnost.
 
 Text je zpracován podle přiložených materiálů k analýze a řízení rizik, zejména metodiky pro identifikaci a hodnocení aktiv a hodnocení rizik, přednáškového souhrnu Analýza a řízení rizik a doplněného seznamu typických dotazů z databáze komisí. Formulace je upravena jako souvislá státnicová odpověď, ne jako doslovný přepis materiálů.
+
+\fi
 
 \newpage
 
