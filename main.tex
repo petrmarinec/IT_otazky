@@ -2808,13 +2808,12 @@ Když se ptají na čerstvost, řekni nonce, sekvence nebo timestamp. Když se p
 
 \otazka{11. Analýza a řízení rizik}{Asset management, analýza rizik, opatření proti rizikům a jejich účinnost. Řízení identity a přístupu, ACL, privilegovaní uživatelé. Audit, bezpečnostní standardy, hodnocení bezpečnosti.}{PV080, PV157, PV017}
 
-\itbox{\textbf{Jak tuhle otázku říct u státnic:} nejdřív ukážu logiku \textbf{metodika -> rozsah ISMS -> primární a podpůrná aktiva -> hrozby a zranitelnosti -> rizika -> opatření -> zbytkové riziko}. Potom vysvětlím, jak se rizika snižují, jak do toho patří identity a přístupy, proč jsou privilegované účty nejcitlivější a jak se bezpečnost ověřuje auditem, standardy a hodnocením.}
+\itbox{\textbf{Jak tuhle otázku říct u státnic:} nejdřív ukážu logiku \textbf{aktivum -> hrozba -> zranitelnost -> dopad -> riziko -> opatření -> zbytkové riziko}. Potom vysvětlím, jak se rizika snižují, jak do toho patří identity a přístupy, proč jsou privilegované účty nejcitlivější a jak se bezpečnost ověřuje auditem, standardy a hodnocením.}
 
 \subsection*{0. Kostra celé odpovědi}
 
 \begin{itemize}
     \item \textbf{Asset management}: musím vědět, co chráním, kdo za to odpovídá, jakou to má hodnotu a na čem to závisí.
-    \item \textbf{Metodika}: předem stanoví rozsah, role, stupnice, vzorec výpočtu, kritéria akceptace a postup práce.
     \item \textbf{Analýza rizik}: z aktiv, hrozeb, zranitelností a dopadů určím, jak velké riziko organizace má.
     \item \textbf{Řízení rizik}: riziko snížím, přenesu, přijmu, sleduji, nebo se mu vyhnu.
     \item \textbf{Účinnost opatření}: opatření nestačí mít napsané; musí být zavedené, testované a provozně funkční.
@@ -2824,7 +2823,7 @@ Když se ptají na čerstvost, řekni nonce, sekvence nebo timestamp. Když se p
 
 \subsection*{1. Asset management}
 
-\textbf{Asset management} je evidence a řízení aktiv. Aktivum je cokoliv, co má pro organizaci hodnotu a co může být poškozeno ztrátou důvěrnosti, integrity nebo dostupnosti. Podle průvodce k řízení aktiv a rizik je vhodné začít rozsahem ISMS a metodikou: organizace si nejdřív určí, která aktiva do rozsahu patří, jak je bude evidovat, kdo za ně bude odpovídat, jakou stupnici použije a jak se z hodnot aktiv bude počítat riziko.
+\textbf{Asset management} je evidence a řízení aktiv. Aktivum je cokoliv, co má pro organizaci hodnotu a co může být poškozeno ztrátou důvěrnosti, integrity nebo dostupnosti.
 
 \begin{longtable}{p{0.22\linewidth}p{0.35\linewidth}p{0.36\linewidth}}
 \toprule
@@ -2836,38 +2835,18 @@ Podpůrná aktiva & servery, sítě, aplikace, lidé, dodavatelé, budovy, cloud
 \bottomrule
 \end{longtable}
 
-Primární aktiva jsou hlavně \textbf{služby a informace}. U služby se obvykle vychází z účelu organizace, agendy nebo informačního systému. Například u agendového systému je primárním aktivem služba, kterou systém poskytuje, a informace, se kterými pracuje. Podpůrná aktiva jsou technické vybavení, komunikační prostředky, software, objekty, lidské zdroje, dodavatelé a externí systémy nebo služby.
-
-\itbox{\textbf{Typová aktiva:} průvodce pracuje s typovými aktivy, tedy se skupinami podobných aktiv. Je to praktické, ale musí to dávat smysl: aktiva ve skupině mají mít podobné hrozby, zranitelnosti a hodnoty CIA. Příliš obecné typové aktivum zamlží rizika; příliš detailní evidence zase zahltí organizaci a nepůjde ji udržovat.}
-
 U každého důležitého aktiva má být jasné:
 \begin{itemize}
     \item \textbf{vlastník/garant aktiva} - určuje hodnotu, požadavky a přijatelné riziko,
     \item \textbf{technický správce} - provozuje systém, ale nemusí rozhodovat o obchodním významu,
-    \item \textbf{hodnota aktiva} z pohledu důvěrnosti, integrity, dostupnosti a případně ztráty dat,
-    \item \textbf{vazby mezi aktivy} - hlavně vazba podpůrných aktiv na primární aktiva,
+    \item \textbf{hodnota aktiva} z pohledu důvěrnosti, integrity a dostupnosti,
+    \item \textbf{vazby na jiná aktiva} - například aplikace závisí na databázi, síti, identitním systému a cloudu,
     \item \textbf{životní cyklus} - pořízení, provoz, změny, vyřazení a bezpečná likvidace.
 \end{itemize}
 
 \itpr{\textbf{Praktický příklad:} Internetové bankovnictví není jen jedna aplikace. Primárním aktivem je služba a klientská data. Podpůrná aktiva jsou servery, databáze, autentizační systém, síť, administrátoři, dodavatelé a monitoring. Když není evidence aktiv, organizace často zjistí závislosti až při incidentu.}
 
 U dostupnosti se často používají hodnoty \textbf{RTO} a \textbf{RPO}. RTO říká, za jak dlouho musí být služba obnovena. RPO říká, kolik dat si organizace může dovolit ztratit. Pokud má služba RTO 2 hodiny a RPO 15 minut, musí tomu odpovídat zálohování, replikace i havarijní plán.
-
-\subsection*{Proces podle průvodce NÚKIB}
-
-Průvodce řízením aktiv a rizik popisuje praktický postup, který se dá říct jako pořadí kroků:
-\begin{enumerate}
-    \item vytvořit metodiku pro hodnocení aktiv a rizik,
-    \item identifikovat primární aktiva a jejich garanty,
-    \item ohodnotit primární aktiva podle důvěrnosti, integrity, dostupnosti a případně ztráty,
-    \item identifikovat podpůrná aktiva, jejich garanty a vazby na primární aktiva,
-    \item vytvořit katalog hrozeb, katalog zranitelností a katalog opatření,
-    \item vytvářet jen \textbf{relevantní kombinace} aktivum - zranitelnost - hrozba,
-    \item vypočítat hodnotu rizika, porovnat ji s kritérii akceptace a rozhodnout o zvládání rizika,
-    \item připravit zprávu o hodnocení rizik, plán zvládání rizik a prohlášení o aplikovatelnosti.
-\end{enumerate}
-
-\itbox{\textbf{Role:} v praxi se používá rozdělení odpovědností typu RACI. Vrcholové vedení nebo výbor KB schvaluje rozsah, metodiku a zbytková rizika. Manažer KB proces řídí. Garant aktiva dodává znalost dopadů a hodnoty aktiva. Architekt a IT doplňují technické vazby. Auditor má nezávisle ověřovat, ne řídit vlastní práci.}
 
 \subsection*{2. Analýza rizik}
 
@@ -2888,10 +2867,6 @@ Riziko & kombinace pravděpodobnosti a dopadu & únik dat kvůli slabému říze
 
 \textbf{Hrozba není totéž co zranitelnost.} Hrozba je například phishingová kampaň. Zranitelnost je to, že uživatelé nejsou školení, chybí MFA nebo lze poslat podvržený e-mail. Dopad je únik účtů nebo kompromitace systému. Riziko je až celá kombinace dohromady.
 
-\itbox{\textbf{Vzorec z průvodce:} typicky se používá \textbf{Riziko = dopad (hodnota relevantního atributu aktiva) x hrozba x zranitelnost}. Dopad se bere z hodnocení aktiva, hrozba vyjadřuje pravděpodobnost realizace hrozby a zranitelnost vyjadřuje, jak snadno může být slabina zneužita a jak účinná jsou existující opatření. Alternativně lze u scénářového přístupu použít \textbf{Riziko = dopad x scénář}, ale nemělo by se tím ztratit rozlišení hrozby a zranitelnosti.}
-
-Při identifikaci rizik se nevytváří všechno se vším. Smyslem je vytvořit \textbf{relevantní kombinace} aktivum - zranitelnost - hrozba. Například u lidských zdrojů nedává smysl kombinovat technickou zranitelnost typu chybějící patch firmware, ale dává smysl kombinovat nedostatečné školení, phishing a kompromitaci účtu.
-
 \subsection*{Kvalitativní a kvantitativní analýza}
 
 \begin{longtable}{p{0.23\linewidth}p{0.36\linewidth}p{0.34\linewidth}}
@@ -2908,7 +2883,7 @@ Zjednodušeně: kvalitativně řeknu, že riziko je vysoké, protože pravděpod
 
 \subsection*{3. Řízení rizik a opatření}
 
-Po vyhodnocení rizika musí organizace rozhodnout, co s ním udělá. Nejdřív porovná hodnotu rizika s kritérii akceptovatelnosti. To je prakticky \textbf{risk appetite}: hranice, která říká, která rizika je vedení ochotné přijmout a u kterých musí organizace hledat opatření.
+Po vyhodnocení rizika musí organizace rozhodnout, co s ním udělá.
 
 \begin{longtable}{p{0.22\linewidth}p{0.38\linewidth}p{0.33\linewidth}}
 \toprule
@@ -2953,8 +2928,6 @@ Podle povahy & fyzické & zámky, čipy, kamerový systém, zabezpečení server
 
 \itpr{\textbf{Příklad účinnosti:} Zálohy nejsou účinné jen proto, že existují. Účinné jsou tehdy, když jsou pravidelně vytvářené, chráněné proti smazání, obnovitelné a obnova je testovaná. Stejně ACL nestačí jen nastavit; musí odpovídat rolím a musí se pravidelně revidovat.}
 
-\itbox{\textbf{Katalog opatření a SoA:} průvodce doporučuje katalog opatření, který může zároveň sloužit jako prohlášení o aplikovatelnosti a GAP analýza. U opatření se řeší, zda je zavedeno, dokumentováno a zda je kontrolována jeho účinnost. Katalog opatření se mapuje na zranitelnosti, takže pomáhá určit, jak moc jsou zranitelnosti reálně pokryté.}
-
 \subsection*{4. Provozní procesy, které snižují rizika}
 
 \begin{itemize}
@@ -2966,20 +2939,6 @@ Podle povahy & fyzické & zámky, čipy, kamerový systém, zabezpečení server
 \end{itemize}
 
 Když oprava zranitelnosti nejde nasadit hned, organizace musí zvolit náhradní opatření: segmentaci, omezení přístupu, monitoring, vypnutí funkce nebo vědomé přijetí rizika.
-
-\subsection*{Výstupy hodnocení rizik}
-
-Praktickým výstupem nemá být jen tabulka rizik. Podle průvodce mají být výsledky zpracované do dokumentů, se kterými se dál pracuje:
-\begin{itemize}
-    \item \textbf{katalog aktiv} - primární a podpůrná aktiva, garanti, hodnocení a vazby,
-    \item \textbf{katalog hrozeb a zranitelností} - opora pro opakovatelné hodnocení,
-    \item \textbf{registr rizik} - identifikovaná rizika, hodnoty a způsob zvládání,
-    \item \textbf{zpráva o hodnocení rizik} - shrnutí pro vedení nebo výbor KB,
-    \item \textbf{plán zvládání rizik} - opatření, odpovědné osoby, zdroje, termíny, vazby na rizika a způsob ověření úspěšnosti,
-    \item \textbf{prohlášení o aplikovatelnosti} - která opatření jsou zavedena, jak, která nejsou a proč.
-\end{itemize}
-
-Plán zvládání rizik má vycházet nejen z hodnocení rizik, ale i z auditů, incidentů, významných změn, varování nebo reaktivních opatření. Náklady na opatření by měly být přiměřené hodnotě rizika; opatření nemá být dražší než přiměřeně očekávaná škoda, pokud nejde o zvlášť kritickou povinnost nebo nepřijatelné riziko.
 
 \subsection*{5. Řízení identity a přístupu, ACL a privilegovaní uživatelé}
 
@@ -3072,9 +3031,9 @@ Bezpečnost lze hodnotit více způsoby:
 
 \subsection*{8. Krátká mluvená verze}
 
-Analýza a řízení rizik začíná metodikou a rozsahem ISMS. Organizace musí vědět, jaká má primární aktiva, tedy služby a informace, a jaká podpůrná aktiva je umožňují, například systémy, lidé, sítě, dodavatelé a externí služby. U aktiv určí garanty, hodnotu z pohledu důvěrnosti, integrity, dostupnosti a případně ztráty dat a popíše vazby mezi primárními a podpůrnými aktivy. Potom identifikuje hrozby, původce hrozeb, zranitelnosti a možné dopady. Riziko lze vyjádřit vzorcem dopad krát hrozba krát zranitelnost.
+Analýza a řízení rizik začíná tím, že organizace ví, jaká má aktiva a kdo za ně odpovídá. U aktiv určí hodnotu z pohledu důvěrnosti, integrity a dostupnosti a popíše vazby na podpůrná aktiva, jako jsou systémy, lidé, sítě a dodavatelé. Potom identifikuje hrozby, původce hrozeb, zranitelnosti a možné dopady. Riziko vzniká jako kombinace pravděpodobnosti a dopadu.
 
-S rizikem lze pracovat různě: snížit ho opatřeními, přenést ho, přijmout ho, sledovat ho nebo se mu vyhnout. Opatření mohou být preventivní, detekční a reaktivní, případně administrativní, technická a fyzická. Důležité je ověřovat jejich účinnost, protože opatření, které existuje jen na papíře, riziko reálně nesnižuje. Výstupem má být registr rizik, zpráva o hodnocení rizik, plán zvládání rizik a prohlášení o aplikovatelnosti.
+S rizikem lze pracovat různě: snížit ho opatřeními, přenést ho, přijmout ho, sledovat ho nebo se mu vyhnout. Opatření mohou být preventivní, detekční a reaktivní, případně administrativní, technická a fyzická. Důležité je ověřovat jejich účinnost, protože opatření, které existuje jen na papíře, riziko reálně nesnižuje.
 
 Řízení identity a přístupu zajišťuje, aby správná osoba měla správná práva ve správný čas. ACL určuje konkrétní oprávnění k objektům a privilegované účty musí být chráněny přísněji, protože mohou způsobit největší škodu. Audit pak nezávisle ověřuje, zda bezpečnost odpovídá požadavkům. Standardy jako ISO 27001, ISO 27002, NIST CSF nebo CIS Controls dávají rámec pro řízení a hodnocení bezpečnosti.
 
@@ -3086,8 +3045,6 @@ S rizikem lze pracovat různě: snížit ho opatřeními, přenést ho, přijmou
     \item \textbf{Kdy riziko eliminuji?} Jen výjimečně, když odstraním činnost nebo aktivum, které riziko vytváří.
     \item \textbf{Co je kvalitativní analýza?} Hodnocení pomocí kategorií, typicky nízké/střední/vysoké/kritické.
     \item \textbf{Co je kvantitativní analýza?} Snaha vyjádřit riziko číselně, například přes SLE, ARO a ALE.
-    \item \textbf{Jaký vzorec používá průvodce?} Riziko = dopad (hodnota aktiva) x hrozba x zranitelnost.
-    \item \textbf{Co je SoA?} Prohlášení o aplikovatelnosti: přehled zavedených i nezavedených opatření a důvodů.
     \item \textbf{Co je hlavní požadavek na auditora?} Nezávislost na auditované oblasti.
     \item \textbf{K čemu jsou standardy?} Dávají rámec, měřítko a společný jazyk pro řízení, audit a hodnocení bezpečnosti.
 \end{itemize}
