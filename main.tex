@@ -62,6 +62,15 @@
   innertopmargin=5pt, innerbottommargin=5pt
 ]{notebox}
 
+\newmdenv[
+  backgroundcolor=brown!8,
+  linecolor=brown!35,
+  linewidth=0.6pt,
+  skipabove=8pt, skipbelow=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=6pt, innerbottommargin=6pt
+]{beigebox}
+
 \title{IT státnice: okruhy 1--12\\\large Rozšířené opakovací poznámky k odborným otázkám}
 \author{Petr Mařinec}
 \date{Aktualizováno \today}
@@ -2809,6 +2818,17 @@ Když se ptají na čerstvost, řekni nonce, sekvence nebo timestamp. Když se p
 \otazka{11. Analýza a řízení rizik}{Asset management, analýza rizik, opatření proti rizikům a jejich účinnost. Řízení identity a přístupu, ACL, privilegovaní uživatelé. Audit, bezpečnostní standardy, hodnocení bezpečnosti.}{PV080, PV157, PV017}
 
 \itbox{\textbf{Jak tuhle otázku říct u státnic:} nejdřív ukážu logiku \textbf{aktivum -> hrozba -> zranitelnost -> dopad -> riziko -> opatření -> zbytkové riziko}. Potom vysvětlím, jak se rizika snižují, jak do toho patří identity a přístupy, proč jsou privilegované účty nejcitlivější a jak se bezpečnost ověřuje auditem, standardy a hodnocením.}
+
+\begin{beigebox}
+\textbf{Zkouškový blok - souvislá odpověď na dotazy komise:}
+Když bych měl začít hrozbou, řekl bych, že hrozba je něco, co může negativně působit na aktivum a způsobit narušení důvěrnosti, integrity nebo dostupnosti. Hrozba sama o sobě ještě není riziko. Například phishingový e-mail je hrozba, slabá hesla a chybějící MFA jsou zranitelnosti, aktivem je třeba firemní VPN a interní systémy a rizikem je až celý scénář, že útočník získá heslo zaměstnance, přihlásí se přes VPN a dostane se do interní sítě. Příklady hrozeb jsou malware a ransomware, phishing, DDoS útok, zneužití zranitelnosti v nepatchovaném systému, chyba administrátora, výpadek elektřiny, požár serverovny, krádež notebooku, insider nebo selhání dodavatele. Typy útočníků mohou být náhodný externí útočník, který skenuje internet a hledá snadné cíle; organizovaná kriminální skupina, která chce peníze, typicky ransomwarem nebo krádeží dat; APT nebo státem podporovaný aktér, který má čas, zdroje a konkrétní cíl; insider, tedy zaměstnanec nebo bývalý zaměstnanec; a dodavatel nebo jeho kompromitovaný účet.
+
+Riziko bych vysvětlil jako kombinaci pravděpodobnosti a dopadu, případně jako konkrétní scénář aktivum - hrozba - zranitelnost - dopad. Když mám e-shop, aktivem je služba prodeje, databáze zákazníků, objednávky, platební brána a dostupnost webu. Hrozbou může být DDoS nebo ransomware, zranitelností špatně nastavený administrátorský účet, chybějící zálohy nebo neaktualizovaná aplikace a dopadem je výpadek prodeje, únik osobních údajů, ztráta tržeb a reputační škoda. Rizika nejde vždycky úplně eliminovat. Úplná eliminace znamená odstranit samotný zdroj rizika, například vypnout nebezpečnou službu, zrušit nepotřebný systém nebo přestat používat zranitelný software. Častěji ale riziko snižujeme opatřeními: MFA, patch managementem, segmentací sítě, principem nejmenších oprávnění, zálohami, monitoringem, školením a incident response plánem. Část rizika lze přenést, třeba pojištěním nebo smlouvou s dodavatelem, ale odpovědnost za dopad na službu typicky zůstává organizaci. Po opatřeních vždy zůstává zbytkové riziko, které má někdo vědomě přijmout.
+
+Kvalitativní analýza rizik používá slovní nebo bodové úrovně, například nízké, střední, vysoké a kritické riziko. Je praktická, rychlá a dobře se vysvětluje managementu: třeba VPN bez MFA pro všechny zaměstnance může být vysoké riziko, protože pravděpodobnost kompromitace hesla je reálná a dopad přístupu do interní sítě velký. Kvantitativní analýza se snaží vyjádřit riziko penězi nebo čísly, například očekávanou roční ztrátou. Typicky se mluví o SLE, ARO a ALE: jedna událost by stála třeba 500 000 Kč, očekávám ji jednou za pět let, takže roční očekávaná ztráta je přibližně 100 000 Kč. V kyberbezpečnosti je kvantifikace užitečná pro rozhodování o nákladech opatření, ale často je nejistá, protože reputace, ztráta důvěry nebo regulatorní dopady se špatně počítají přesně.
+
+Auditor ověřuje, jestli skutečný stav odpovídá kritériím: zákonu, normě, interní politice, smlouvě nebo bezpečnostnímu standardu. Nedělá jen to, že se zeptá, jestli organizace má zálohy. Chce vidět politiku zálohování, seznam systémů, logy zálohování, důkaz o testu obnovy a ověří, jestli se obnova vejde do požadovaného času. Interní audit provádí člověk nebo útvar uvnitř organizace, externí audit provádí nezávislá třetí strana, například certifikační auditor nebo auditor dodavatele. Interní auditor by měl být organizačně nezávislý na IT provozu a bezpečnostní exekutivě, ideálně v interním auditu, compliance nebo přímo pod vedením, aby neauditoval vlastní práci. Když je interní auditor ve stejném týmu jako IT, výhoda je, že rozumí prostředí, technologiím a rychle najde reálné problémy. Nevýhoda je střet zájmů: může hodnotit nastavení, které sám navrhl nebo provozuje, může být pod tlakem kolegů a audit pak není dost nezávislý. Proto je dobré, aby IT poskytovalo součinnost a technické vysvětlení, ale samotný audit a závěry měly nezávislé postavení.
+\end{beigebox}
 
 \subsection*{0. Kostra celé odpovědi}
 
