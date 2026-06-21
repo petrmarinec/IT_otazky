@@ -89,6 +89,42 @@ Barevně odlišené rámečky shrnují, co říct u zkoušky, na co si dát pozo
 
 \otazka{1. Výpočetní systémy}{Číselné soustavy, vztahy mezi soustavami, zobrazení celého čísla v počítači, aritmetika. Kódy, vnitřní, vnější, detekční a opravné. Procesory, jejich parametry a architektury. Vnitřní a vnější paměti a principy jejich funkce. Vstupní a výstupní zařízení počítače a jejich připojování.}{PB151}
 
+\subsection*{1. Výpočetní systémy -- stručněji}
+Tahle kratší verze drží otázku v jedné lince: informace se v počítači reprezentují bity, nad nimi počítá procesor, data se ukládají v pamětech a okolní svět se připojuje přes vstupně-výstupní zařízení.
+
+\textbf{1. Výpočetní systém jako celek}
+\begin{itemize}
+  \item Výpočetní systém je souhra procesoru, pamětí, vstupně-výstupních zařízení, sběrnic a operačního systému. Procesor vykonává instrukce, paměť drží program a data, periferie zajišťují kontakt s okolím.
+  \item Počítač pracuje s informací fyzicky jako se stabilními stavy, které značíme 0 a 1. Všechno ostatní, tedy čísla, text, instrukce i obrázky, je nad tím jen dohodnutá interpretace bitů.
+\end{itemize}
+
+\textbf{2. Číselné soustavy a zobrazení čísel}
+\begin{itemize}
+  \item Dvojková soustava je přirozená pro hardware, šestnáctková je kratší zápis bitů pro člověka. Převody je dobré umět přes váhy pozic a přes skupiny po čtyřech bitech.
+  \item Celá čísla se ukládají v pevné šířce bitů. Bez znaménka reprezentují rozsah 0 až $2^n-1$, se znaménkem se dnes nejčastěji používá \textbf{doplňkový kód}.
+  \item V doplňkovém kódu se přenos z nejvyššího bitu zahazuje. Přetečení nastane hlavně tehdy, když sčítám dvě čísla stejného znaménka a vyjde opačné znaménko.
+  \item Reálná čísla se ukládají přibližně podle IEEE 754: znaménko, exponent a mantisa. Nejde o přesné desetinné počítání, proto se objevují zaokrouhlovací chyby.
+\end{itemize}
+
+\textbf{3. Kódy}
+\begin{itemize}
+  \item Vnitřní kódy slouží uvnitř počítače, například binární reprezentace čísel nebo instrukcí. Vnější kódy slouží pro výměnu informací, typicky ASCII, Unicode a UTF-8.
+  \item Detekční a opravné kódy přidávají redundantní bity. Parita umí zachytit některé chyby, CRC se používá v přenosech a Hammingův kód umí za určitých podmínek chybu i opravit.
+\end{itemize}
+
+\textbf{4. Procesor a paměti}
+\begin{itemize}
+  \item Procesor pracuje v cyklu fetch -- decode -- execute -- memory -- write-back. Instrukce se načte, dekóduje, provede, případně sáhne do paměti a výsledek se zapíše zpět.
+  \item Parametry procesoru nejsou jen takt. Důležité jsou jádra, cache, instrukční sada, šířka registrů, pipeline, superskalárnost a IPC, tedy kolik instrukcí může za cyklus skutečně dokončit.
+  \item Paměťová hierarchie je kompromis mezi rychlostí, cenou a kapacitou: registry a cache jsou rychlé a malé, RAM je větší a pomalejší, SSD/HDD jsou perzistentní a ještě pomalejší.
+\end{itemize}
+
+\textbf{5. Vstupy a výstupy}
+\begin{itemize}
+  \item Vstupní a výstupní zařízení převádějí data mezi počítačem a okolím. Připojují se přes řadiče a rozhraní, například USB, PCIe, SATA, NVMe nebo síťové rozhraní.
+  \item Důležitá pointa: procesor obvykle neřídí každý bajt ručně. Používají se přerušení, buffery a DMA, aby zařízení mohla přenášet data efektivněji.
+\end{itemize}
+
 \itbox{\textbf{Jak s tím pracovat:} text je napsaný jako jedna souvislá odpověď. Při ústní zkoušce není cílem odříkat každou větu, ale držet stejnou linku: nejdřív vysvětlit, jak se informace reprezentuje bity, potom jak nad ní procesor počítá, a nakonec jak spolu procesor, paměti a periferie komunikují. Komise podle zkušeností často nechce jen definice, ale konkrétní převod, dvojkový doplněk, rozpoznání overflow, BCD a srovnání RISC/CISC.}
 
 \subsection*{1. Úvod: proč se vůbec bavíme o soustavách}
@@ -383,6 +419,47 @@ Vstupní a výstupní zařízení propojují počítač s okolím a k efektivní
 \newpage
 
 \otazka{2. Operační systémy}{Architektura operačního systému, architektura jádra, základní režimy procesoru. Programovací rozhraní, knihovny. Uživatel, přístupová práva, virtualizace. Virtuální paměť, proces a stránkové tabulky. Vlákno, plánování vláken a procesů. Souběžnost, uváznutí, přidělování zdrojů. Vznik procesu a spuštění programu v systémech POSIX, copy-on-write.}{PB152, PV004}
+
+\subsection*{2. Operační systémy -- stručněji}
+Operační systém je správce prostředků a ochranná vrstva mezi aplikacemi a hardwarem. U zkoušky je nejlepší vést odpověď od jádra a režimů procesoru přes procesy, paměť, plánování a souběžnost až k POSIX vzniku procesu.
+
+\textbf{1. Co OS dělá}
+\begin{itemize}
+  \item OS poskytuje aplikacím abstrakce: proces místo holého CPU, soubor místo bloků na disku, virtuální paměť místo fyzické RAM, socket místo síťové karty.
+  \item Zároveň chrání systém: běžný program nesmí libovolně zapisovat do paměti jádra, číst cizí paměť nebo přímo ovládat zařízení.
+\end{itemize}
+
+\textbf{2. Jádro, režimy a rozhraní}
+\begin{itemize}
+  \item Jádro běží v privilegovaném režimu procesoru. Aplikace běží v user mode a o služby žádají přes systémová volání, například \texttt{read}, \texttt{write}, \texttt{fork}, \texttt{exec}.
+  \item Knihovna není totéž co systémové volání: knihovna poskytuje pohodlné API, ale při přístupu k chráněnému zdroji musí nakonec přejít do jádra.
+  \item Monolitické jádro má mnoho služeb přímo v kernel mode, mikrojádro přesouvá více služeb do user space. Typicky se řeší kompromis výkonu, izolace a složitosti.
+\end{itemize}
+
+\textbf{3. Proces, vlákno a plánování}
+\begin{itemize}
+  \item Proces je běžící program s vlastním adresním prostorem, prostředky a stavem. Vlákno je jednotka běhu uvnitř procesu; vlákna sdílejí paměť procesu, ale mají vlastní zásobník a registry.
+  \item Plánovač rozhoduje, co poběží na CPU. Řeší férovost, odezvu, propustnost a priority. Přepnutí kontextu uloží stav jednoho běhu a obnoví stav jiného.
+\end{itemize}
+
+\textbf{4. Virtuální paměť}
+\begin{itemize}
+  \item Virtuální paměť dává procesu iluzi vlastního souvislého prostoru adres. MMU a stránkové tabulky překládají virtuální adresy na fyzické rámce.
+  \item Výhody jsou ochrana procesů, pohodlnější alokace, sdílení knihoven, memory mapping a možnost odkládat stránky na disk. Nevýhodou je režie a page fault.
+\end{itemize}
+
+\textbf{5. Souběžnost a deadlock}
+\begin{itemize}
+  \item Souběžnost znamená, že více výpočtů pracuje nad sdílenými prostředky. Riziko je race condition, kdy výsledek závisí na načasování.
+  \item Synchronizace se řeší mutexy, semafory, podmínkovými proměnnými nebo monitory. Deadlock vzniká, když procesy čekají cyklicky na prostředky, které drží někdo jiný.
+  \item Deadlock se řeší prevencí, vyhýbáním, detekcí a zotavením. Starvation je jiný problém: proces se sice může teoreticky dostat na řadu, ale prakticky pořád čeká.
+\end{itemize}
+
+\textbf{6. POSIX fork, exec a copy-on-write}
+\begin{itemize}
+  \item \texttt{fork} vytvoří potomka jako kopii procesu, \texttt{exec} nahradí obraz procesu novým programem a \texttt{wait} umožní rodiči počkat na potomka.
+  \item Copy-on-write šetří paměť: po \texttt{fork} se stránky fyzicky nekopírují hned, ale sdílí se, dokud do nich jeden proces nezačne zapisovat.
+\end{itemize}
 
 Architektura OS, jádro, režimy procesoru, API, práva, virtualizace, \textbf{virtuální paměť}, procesy, vlákna, plánování, souběžnost, \textbf{deadlock} a POSIX \textbf{fork}/\textbf{exec}/COW
 
@@ -683,6 +760,41 @@ Když se zeptá, co je ovladač, odpověď je: systémový software pro komunika
 
 \otazka{3. Souborové systémy}{Blokové zařízení, bloková vrstva, I/O plánovač, RAID, šifrování disku. Obyčejné soubory, alokace volného místa, fragmentace. Adresářová struktura a její reprezentace na disku. Vstup a výstup mapovaný do paměti.}{PB152, PV004}
 
+\subsection*{3. Souborové systémy -- stručněji}
+Souborový systém je abstrakce, která ze surových bloků na médiu udělá soubory, adresáře, metadata a pravidla přístupu. U otázky je dobré postupovat od blokového zařízení přes metadata, alokaci a konzistenci až k RAIDu, šifrování a \texttt{mmap}.
+
+\textbf{1. Základní definice}
+\begin{itemize}
+  \item Bez souborového systému by disk nebo SSD byl pro OS jen pole očíslovaných bloků bez jmen, vazeb a hierarchie.
+  \item Souborový systém říká, kde jsou data souboru, kde jsou metadata, co je adresář, které bloky jsou volné a jak se cesta přeloží na konkrétní data.
+\end{itemize}
+
+\textbf{2. Cesta od programu k disku}
+\begin{itemize}
+  \item Program volá \texttt{open}, \texttt{read}, \texttt{write} nebo \texttt{close}. VFS najde obecný objekt souboru a konkrétní ovladač, například ext4, přeloží offset v souboru na bloky zařízení.
+  \item Bloková vrstva sjednocuje přístup k diskům, SSD, RAIDu a šifrovaným svazkům. I/O plánovač může požadavky řadit kvůli výkonu.
+\end{itemize}
+
+\textbf{3. Metadata a adresáře}
+\begin{itemize}
+  \item Metadata popisují soubor: vlastník, práva, velikost, časy, typ a odkazy na datové bloky. V unixových FS jsou typicky v i-nodech.
+  \item Adresář je speciální soubor, který mapuje jméno na objekt souborového systému. Proto hard link znamená více jmen pro stejný i-node, zatímco symlink obsahuje cestu k cíli.
+\end{itemize}
+
+\textbf{4. Alokace, fragmentace a konzistence}
+\begin{itemize}
+  \item Při vytvoření souboru FS najde volný i-node a volné bloky, označí je v bitmapě a přidá záznam do adresáře.
+  \item Fragmentace znamená, že bloky jednoho souboru nejsou souvisle. Vnitřní fragmentace je nevyužitý zbytek posledního bloku, vnější fragmentace je rozptýlené volné místo.
+  \item Žurnálování chrání konzistenci po pádu: nejdřív se zapíše záměr změny do žurnálu a pak se provede změna.
+\end{itemize}
+
+\textbf{5. RAID, šifrování a mmap}
+\begin{itemize}
+  \item RAID řeší výkon, kapacitu nebo redundanci, ale není záloha. RAID 0 zrychluje bez redundance, RAID 1 zrcadlí, RAID 5/6 používá paritu.
+  \item Šifrování disku chrání data v klidu, například při krádeži vypnutého notebooku. Nechrání před malwarem v odemčeném běžícím systému.
+  \item \texttt{mmap} mapuje soubor do adresního prostoru procesu. Program pracuje jako s pamětí, ale OS přes page faulty načítá a zapisuje stránky souboru.
+\end{itemize}
+
 \subsection*{Co je souborový systém}
 Souborový systém je \textbf{abstrakce nad paměťovým médiem nebo blokovým zařízením}, která z obyčejných očíslovaných bloků dělá pojmenované soubory, adresáře a metadata. Je to zároveň soubor pravidel a datových struktur, podle kterých operační systém ví, kde soubor začíná, z jakých bloků se skládá, kdo k němu smí přistupovat a jak se najde podle cesty typu \texttt{/home/petr/dokument.txt}.
 
@@ -963,6 +1075,40 @@ Závěrečná zkoušková osa: blokové zařízení -> bloková vrstva/I/O sched
 \newpage
 
 \otazka{4. Sítě}{Modely vrstev počítačových sítí (ISO/OSI, TCP/IP), funkcionalita a součinnost vrstev, adresace. Fyzická vrstva, signály a jejich kódování, řízení přístupu k médiu. Propojování počítačových sítí. Síťové protokoly, přepínání a směrování, multicast. Zajištěný přenos dat, sestavení a ukončení spojení. Transportní protokoly.}{PB156, PB156cv}
+
+\subsection*{4. Sítě -- stručněji}
+Síť je systém, ve kterém zařízení komunikují pomocí vrstev, adres a protokolů. Dobrá odpověď má ukázat cestu dat: aplikace vytvoří zprávu, transport ji doručuje procesu, IP síť ji směruje mezi sítěmi, linková vrstva ji předá dalšímu hopu a fyzická vrstva ji pošle jako signál.
+
+\textbf{1. Vrstvy a jejich smysl}
+\begin{itemize}
+  \item ISO/OSI je sedmivrstvý referenční model, TCP/IP je praktičtější internetový model. Smysl vrstev je oddělit odpovědnosti a skrýt detaily nižších vrstev.
+  \item Zkoušková věta: L7 řeší význam zprávy, L4 porty a procesy, L3 IP adresy a směrování, L2 rámce a sousední uzel, L1 fyzický signál.
+\end{itemize}
+
+\textbf{2. Adresace}
+\begin{itemize}
+  \item MAC adresa je linková a platí v lokální síti. IP adresa je síťová a slouží k doručení přes více sítí. Port určuje aplikaci nebo proces na koncovém zařízení.
+  \item Privátní IPv4 rozsahy jsou 10.0.0.0/8, 172.16.0.0/12 a 192.168.0.0/16. Do Internetu se přímo nesměrují a typicky se používají za NATem.
+\end{itemize}
+
+\textbf{3. Fyzická a linková vrstva}
+\begin{itemize}
+  \item Fyzická vrstva řeší médium, signál, kódování a přenos bitů. Linková vrstva řeší rámce, MAC adresy, detekci chyb a přístup k médiu.
+  \item Ethernet dnes typicky používá switche a full-duplex, takže staré kolize přes huby už nejsou běžný model moderní LAN.
+\end{itemize}
+
+\textbf{4. Přepínání a směrování}
+\begin{itemize}
+  \item Switch přepíná rámce podle MAC adres v jedné síti. Router směruje pakety podle IP adres mezi sítěmi.
+  \item ARP mapuje IPv4 adresu na MAC adresu v lokální síti. DNS naopak mapuje jména na IP adresy a patří aplikačně výš.
+\end{itemize}
+
+\textbf{5. Transport}
+\begin{itemize}
+  \item TCP poskytuje spojovaný, spolehlivý a seřazený přenos s potvrzováním, řízením toku a zahlcení. Spojení se sestavuje třícestným handshake.
+  \item UDP je jednodušší a bez záruk doručení. Hodí se tam, kde aplikace chce nižší režii nebo si spolehlivost řeší sama, například DNS, VoIP nebo hry.
+  \item Multicast je doručení skupině příjemců, ne všem jako broadcast a ne jednomu jako unicast.
+\end{itemize}
 
 Modely vrstev počítačových sítí (\textbf{ISO/OSI}, \textbf{TCP/IP}), funkcionalita a součinnost vrstev, adresace, fyzická a linková vrstva, propojování sítí, síťové protokoly, přepínání, \textbf{směrování}, \textbf{multicast}, zajištěný přenos a transportní protokoly.
 
@@ -1263,6 +1409,37 @@ Když máš popsat průchod dat sítí, mluv konkrétně: aplikace vytvoří zpr
 
 \otazka{5. Síťové aplikace a bezpečnost}{Základní aplikační protokoly: doručování pošty, přenos souborů, web, jmenná služba. Principy popisu a zajištění kvality služby, použití pro multimédia. Zabezpečení síťové komunikace, autentizace a šifrování, zabezpečení na jednotlivých protokolových vrstvách.}{PB156}
 
+\subsection*{5. Síťové aplikace a bezpečnost -- stručněji}
+Tahle otázka navazuje na sítě: už neřeší jen doručení paketů, ale konkrétní služby pro uživatele, jejich požadavky na kvalitu a způsoby zabezpečení komunikace.
+
+\textbf{1. Aplikační protokoly}
+\begin{itemize}
+  \item Web stojí hlavně na HTTP/HTTPS. HTTP je aplikační protokol pro požadavky a odpovědi, HTTPS znamená HTTP chráněné TLS.
+  \item DNS překládá doménová jména na IP adresy a další záznamy. Je kritické, protože když selže DNS, uživatel často neví, kam se připojit.
+  \item E-mail používá SMTP pro odesílání mezi servery, IMAP nebo POP3 pro přístup ke schránce. Bezpečnost doplňují SPF, DKIM a DMARC proti spoofingu.
+  \item Přenos souborů může používat FTP, SFTP, SCP nebo HTTPS. Důležité je rozlišit staré nešifrované protokoly od variant chráněných SSH nebo TLS.
+\end{itemize}
+
+\textbf{2. Kvalita služby a multimédia}
+\begin{itemize}
+  \item QoS popisuje požadavky na přenos: latence, jitter, ztrátovost, propustnost a dostupnost.
+  \item Multimédia často snesou malou ztrátu paketů, ale špatně snášejí vysokou latenci a jitter. Proto je u VoIP nebo videohovorů důležitější plynulost než dokonalé opakování každého paketu.
+\end{itemize}
+
+\textbf{3. Bezpečnost komunikace}
+\begin{itemize}
+  \item Bezpečnost řeší důvěrnost, integritu, autentizaci a někdy nepopiratelnost. Nejčastější praktický nástroj je TLS nad transportní vrstvou.
+  \item Autentizace serveru v TLS stojí na certifikátu a důvěryhodné certifikační autoritě. Klient tím ověřuje, že mluví se správným serverem.
+  \item Na různých vrstvách existují různé nástroje: WPA2/WPA3 na Wi-Fi/linkové vrstvě, IPsec na síťové vrstvě, TLS na transportně-aplikační hranici, aplikační podpisy a tokeny přímo v aplikaci.
+\end{itemize}
+
+\textbf{4. Typické zkouškové rozlišení}
+\begin{itemize}
+  \item TLS chrání spojení mezi koncovými body, ale neřeší, zda aplikace uvnitř správně autorizuje uživatele.
+  \item VPN chrání síťový přístup, ale nenahrazuje aplikační autentizaci, logování a řízení oprávnění.
+  \item Šifrování zajišťuje důvěrnost, hash integritu, podpis integritu plus vazbu na podepisujícího a certifikát váže veřejný klíč na identitu.
+\end{itemize}
+
 služby, použití pro multimédia. Zabezpečení síťové komunikace, \textbf{autentizace} a šifrování, zabezpečení na jednotlivých protokolových vrstvách.
 
 Tento text je napsaný jako souvislé opakování: cílem není naučit se nazpaměť seznam protokolů, ale umět u státnic popsat, co se na aplikační vrstvě děje, jaké služby se typicky používají, co od sítě požadují multimédia a kde se dá komunikace zabezpečit. Důležité je držet rozdíl mezi aplikačním protokolem, transportním protokolem, bezpečnostní nadstavbou a konkrétní službou pro uživatele.
@@ -1470,6 +1647,40 @@ VPN & Tuneluje provoz přes nedůvěryhodnou síť; chrání úsek do VPN brány
 \newpage
 
 \otazka{6. Principy programování}{Strukturované programování v imperativním jazyce. Paměťový model programu; správa paměti, dynamická alokace, práce s uživatelskými datovými strukturami. Nízkoúrovňová práce s pamětí, ukazatel, pole a ukazatelová aritmetika. Způsoby ladění programu (debugging). Bezpečné programování a vývoj SW.}{PB071, PV080}
+
+\subsection*{6. Principy programování -- stručněji}
+Otázka je hlavně o tom, jak program řízeně pracuje s výpočtem a pamětí. U nízkoúrovňového jazyka, typicky C, je důležité umět vysvětlit nejen algoritmus, ale i kde data leží a kdo odpovídá za jejich životnost.
+
+\textbf{1. Strukturované imperativní programování}
+\begin{itemize}
+  \item Imperativní program říká počítači posloupnost kroků, které mění stav programu. Základ jsou proměnné, přiřazení, podmínky, cykly a funkce.
+  \item Strukturované programování se snaží stavět program z čitelných bloků bez chaotických skoků. Cílem je, aby šel tok řízení sledovat a testovat.
+\end{itemize}
+
+\textbf{2. Paměťový model programu}
+\begin{itemize}
+  \item Běžně rozlišujeme kód, globální/statická data, haldu a zásobník. Zásobník drží lokální proměnné a návratové adresy, halda slouží pro dynamicky alokovaná data.
+  \item Dynamická alokace znamená, že program za běhu žádá paměť, například přes \texttt{malloc}, a musí ji později uvolnit přes \texttt{free}. Chyby vedou k leakům, use-after-free nebo double free.
+\end{itemize}
+
+\textbf{3. Ukazatele, pole a struktury}
+\begin{itemize}
+  \item Ukazatel je proměnná obsahující adresu. Dereference znamená přístup k hodnotě na dané adrese.
+  \item Pole v C úzce souvisí s ukazateli: jméno pole se často chová jako adresa prvního prvku. Ukazatelová aritmetika posouvá adresu po velikostech typu, ne po bajtech bez kontextu.
+  \item Uživatelské datové struktury, například spojový seznam, strom nebo hash tabulka, stojí na kombinaci struktur, ukazatelů a dynamické alokace.
+\end{itemize}
+
+\textbf{4. Debugging}
+\begin{itemize}
+  \item Debugging je systematické hledání příčiny chyby. Používá se reprodukce, breakpointy, krokování, kontrola proměnných, logy, sanitizery a minimální testovací případ.
+  \item Důležité je rozlišit symptom a příčinu: program může spadnout na jednom místě, ale paměť mohla být poškozena dávno předtím.
+\end{itemize}
+
+\textbf{5. Bezpečné programování}
+\begin{itemize}
+  \item Nejčastější nízkoúrovňová rizika jsou buffer overflow, use-after-free, integer overflow, formátovací řetězce, neinicializovaná paměť a chybějící kontrola návratových hodnot.
+  \item Bezpečný vývoj znamená validovat vstupy, kontrolovat hranice, používat bezpečnější funkce, dělat code review, testy, statickou analýzu a kompilátorové ochrany.
+\end{itemize}
 
 \itbox{\textbf{Rozsah:} strukturované programování v imperativním jazyce, paměťový model programu, správa paměti, dynamická alokace, uživatelské datové struktury, nízkoúrovňová práce s pamětí, ukazatele, pole, ukazatelová aritmetika, debugging a bezpečné programování.}
 
@@ -1755,6 +1966,37 @@ Bezpečný vývoj znamená kontrolovat vstupy, velikosti bufferů, návratové h
 \newpage
 
 \otazka{7. Databáze}{Relační model, relační schéma, klíče relačních schémat, integritní omezení, relační algebra, spojování relací. Dotazovací jazyk SQL (příkaz select, spojování relací, agregační funkce). Zpracování dotazů. Indexování. Transakce. Vlastnosti transakčního zpracování.}{PB154 || PB168}
+
+\subsection*{7. Databáze -- stručněji}
+Databáze je řízené uložení dat tak, aby šla bezpečně sdílet, dotazovat, měnit a chránit proti nekonzistenci. Odpověď je dobré vést od relačního modelu přes SQL a indexy až k transakcím.
+
+\textbf{1. Relační model}
+\begin{itemize}
+  \item Relační databáze ukládá data do relací, prakticky tabulek. Řádek je záznam, sloupec je atribut a relační schéma říká, jaké atributy tabulka má.
+  \item Klíč jednoznačně identifikuje řádek. Primární klíč je zvolený hlavní identifikátor, cizí klíč odkazuje na řádek v jiné tabulce.
+  \item Integritní omezení hlídají smysluplnost dat: doménová omezení, NOT NULL, UNIQUE, primární a cizí klíče.
+\end{itemize}
+
+\textbf{2. Relační algebra a SQL}
+\begin{itemize}
+  \item Relační algebra je formální základ dotazování: selekce vybírá řádky, projekce sloupce, spojení kombinuje tabulky podle vztahu.
+  \item SQL je praktický dotazovací jazyk. Základní \texttt{SELECT} řeší \texttt{FROM}, \texttt{WHERE}, \texttt{JOIN}, \texttt{GROUP BY}, agregační funkce a \texttt{ORDER BY}.
+  \item Join není jen "slepení tabulek"; vyjadřuje vztah mezi daty, typicky přes cizí klíč.
+\end{itemize}
+
+\textbf{3. Zpracování dotazů a indexy}
+\begin{itemize}
+  \item Databáze dotaz parsuje, optimalizuje a vytvoří plán provedení. Optimalizátor vybírá pořadí spojení, použití indexů a způsob čtení dat.
+  \item Index zrychluje vyhledávání a řazení, ale zpomaluje zápisy a zabírá místo. Typický B+ strom umožní rychle hledat rozsahy i konkrétní hodnoty.
+  \item Index není kouzlo na všechno: špatně zvolený index se nemusí použít, nízká selektivita moc nepomůže a příliš mnoho indexů zhorší update/insert.
+\end{itemize}
+
+\textbf{4. Transakce}
+\begin{itemize}
+  \item Transakce je skupina operací, která má proběhnout jako jeden logický celek. Vlastnosti ACID znamenají atomicitu, konzistenci, izolaci a trvanlivost.
+  \item Atomicita: buď proběhne všechno, nebo nic. Izolace: souběžné transakce se nemají nebezpečně ovlivnit. Durability: po commitu data přežijí pád.
+  \item Izolační úrovně řeší anomálie jako dirty read, non-repeatable read a phantom read. Vyšší izolace je bezpečnější, ale může snižovat výkon a zvyšovat blokování.
+\end{itemize}
 
 \subsection*{Relační model, SQL, zpracování dotazů, indexování a transakce}
 
@@ -2401,6 +2643,37 @@ U řízení projektu zmíním iterativní a inkrementální přístup, WBS, PERT
 
 \otazka{9. Základní bezpečnostní funkce a jejich zajištění}{Důvěrnost, integrita, dostupnost, nepopiratelnost původu. Organizace a řízení bezpečnosti, bezpečnostní politiky a procedury. Struktura řízení kyberbezpečnosti, role, odpovědnosti a kompetence.}{PV080, PV017, PV210}
 
+\subsection*{9. Základní bezpečnostní funkce -- stručněji}
+Bezpečnost informací znamená řízeně chránit aktiva organizace. Technicky se nejčastěji mluví o důvěrnosti, integritě, dostupnosti a nepopiratelnosti; organizačně o politice, rolích, odpovědnosti, řízení rizik a průběžném zlepšování.
+
+\textbf{1. Co chráníme}
+\begin{itemize}
+  \item Aktivum je cokoli hodnotného: data, služba, aplikace, konfigurace, účet administrátora, reputace, know-how nebo dostupnost systému.
+  \item Bezpečnost není absolutní. Vždy se ptám: co chráním, před kým, proti jakému scénáři a jak silná opatření dávají smysl vzhledem k riziku.
+\end{itemize}
+
+\textbf{2. Základní bezpečnostní funkce}
+\begin{itemize}
+  \item \textbf{Důvěrnost} znamená, že informaci čte jen oprávněný subjekt. Zajišťuje se řízením přístupu, šifrováním, segmentací, klasifikací dat a školením.
+  \item \textbf{Integrita} znamená, že data nejsou neoprávněně změněna. Pomáhají hashe, digitální podpisy, kontroly změn, auditní logy a transakční mechanismy.
+  \item \textbf{Dostupnost} znamená, že služba je k dispozici, když ji potřebujeme. Řeší se redundancí, zálohami, monitoringem, kapacitním plánováním, DRP/BCP a ochranou proti DoS.
+  \item \textbf{Nepopiratelnost původu} znamená, že původce nemůže rozumně popřít provedený úkon. Typicky se opírá o elektronický podpis, časové razítko a auditní stopu.
+\end{itemize}
+
+\textbf{3. Politiky a procedury}
+\begin{itemize}
+  \item Bezpečnostní politika říká, co je povoleno a zakázáno, kdo za co odpovídá a jaké cíle bezpečnosti organizace sleduje.
+  \item Procedury jsou konkrétní postupy: jak se zakládá účet, jak se schvaluje přístup, jak se hlásí incident, jak se obnovuje ze zálohy nebo jak se nasazuje změna.
+  \item Politika bez procedur je příliš obecná; procedury bez politiky mohou řešit detaily bez jasného cíle.
+\end{itemize}
+
+\textbf{4. ISMS a role}
+\begin{itemize}
+  \item ISMS je systém řízení bezpečnosti informací. Nejde jen o techniku, ale o cyklus: plánovat, zavést opatření, kontrolovat a zlepšovat.
+  \item Role musí být jasné: vedení nese odpovědnost, vlastník aktiva určuje hodnotu a požadavky, bezpečnostní manažer koordinuje, administrátoři provozují, uživatelé dodržují pravidla a auditor nezávisle ověřuje.
+  \item Důležitá věta: bezpečnost se nedá "delegovat na IT" celá, protože rozhodnutí o riziku, rozpočtu a dopadech patří vedení organizace.
+\end{itemize}
+
 Důvěrnost, \textbf{integrita}, \textbf{dostupnost}, \textbf{nepopiratelnost} původu. Organizace a řízení bezpečnosti, bezpečnostní politiky a procedury. Struktura řízení kyberbezpečnosti, role, odpovědnosti a kompetence.
 
 Tento text je přepracovaná souvislá odpověď ke státnicové otázce 9. Je psaný tak, aby se dal před zkouškou prostě přečíst jako "pohádka": nejdřív vysvětluje základní bezpečnostní funkce, potom kryptografické mechanismy, na které se komise často ptá, a nakonec organizaci a řízení bezpečnosti, tedy politiky, procedury, \textbf{ISMS}, role, odpovědnosti a hodnocení bezpečnosti.
@@ -2657,6 +2930,43 @@ Text je přepracovaný podle přiložených materiálů 9\_nejaka\_bezpecnost.pd
 
 \otazka{10. Metody autentizace a řízení přístupu}{Biometrické metody autentizace, jejich dopady a problémy. Elektronický podpis a jeho použití. Autentizace strojů a aplikací.}{PV080, PV157}
 
+\subsection*{10. Autentizace a řízení přístupu -- stručněji}
+Otázka stojí na rozdílu mezi identifikací, autentizací a autorizací. Identifikace je tvrzení identity, autentizace ověření identity a autorizace rozhodnutí, co smí ověřený subjekt dělat.
+
+\textbf{1. Faktory autentizace}
+\begin{itemize}
+  \item Faktory jsou něco, co vím (heslo), co mám (token, karta, telefon), co jsem (biometrie) a případně kde/jak se chovám.
+  \item MFA kombinuje více nezávislých faktorů. Smyslem je, aby kompromitace jednoho prvku nestačila k přihlášení.
+  \item Challenge-response znamená, že server pošle výzvu a klient prokáže znalost tajemství nebo soukromého klíče, aniž by poslal samotné heslo v otevřené podobě.
+\end{itemize}
+
+\textbf{2. Hesla, tokeny a moderní přihlášení}
+\begin{itemize}
+  \item Hesla se mají ukládat jako solené pomalé hashe, ne jako plaintext. Rizikem jsou reuse, phishing, slabá hesla a únik databáze.
+  \item TOTP je symetrický princip: server i aplikace mají sdílené tajemství a z času počítají jednorázový kód. FIDO2/WebAuthn je asymetrický: server má veřejný klíč a soukromý klíč zůstává u uživatele.
+  \item Passkeys jsou praktické použití asymetrické autentizace. Jsou odolnější proti phishingu, protože podpis je vázán na konkrétní doménu.
+\end{itemize}
+
+\textbf{3. Biometrie}
+\begin{itemize}
+  \item Biometrie ověřuje vlastnost člověka, například otisk prstu, obličej, duhovku nebo hlas. Výhoda je pohodlí, nevýhoda je neodvolatelnost a riziko chyb.
+  \item Biometrie není tajemství jako heslo. Otisk prstu po úniku nevyměním. Proto se má ukládat šablona, chránit lokálně a dobře řešit fallback.
+  \item Chyby se popisují jako FAR a FRR: falešné přijetí neoprávněného a falešné odmítnutí oprávněného.
+\end{itemize}
+
+\textbf{4. Řízení přístupu}
+\begin{itemize}
+  \item Autorizace se dá řídit přes DAC, MAC, RBAC nebo ABAC. Prakticky se často používají role a atributy: uživatel, oddělení, čas, zařízení, citlivost dat.
+  \item Zásada nejmenších oprávnění říká, že subjekt má mít jen ta práva, která potřebuje. Privilegované účty mají být oddělené, auditované a chráněné MFA.
+  \item ACL je seznam práv ke konkrétnímu objektu, například kdo smí číst nebo zapisovat soubor.
+\end{itemize}
+
+\textbf{5. Elektronický podpis a stroje}
+\begin{itemize}
+  \item Elektronický podpis není primárně přihlášení, ale prokázání původu a integrity dokumentu nebo úkonu.
+  \item Stroje a aplikace se autentizují certifikáty, API klíči, tokeny, mTLS nebo servisními účty. I strojová identita musí mít životní cyklus, rotaci tajemství a omezená oprávnění.
+\end{itemize}
+
 Biometrické metody \textbf{autentizace}, \textbf{elektronický podpis}, autentizace strojů a aplikací
 
 Tahle otázka je dobré začít tím, že autentizace a řízení přístupu nejsou jedna věc, ale navazující řetězec. Nejdřív musíme vědět, kdo nebo co se snaží do systému vstoupit, potom musíme ověřit, že tvrzená identita je pravdivá, a teprve nakonec rozhodujeme, co daný subjekt smí dělat.
@@ -2899,6 +3209,43 @@ Když se ptají na čerstvost, řekni nonce, sekvence nebo timestamp. Když se p
 \newpage
 
 \otazka{11. Analýza a řízení rizik}{Asset management, analýza rizik, opatření proti rizikům a jejich účinnost. Řízení identity a přístupu, ACL, privilegovaní uživatelé. Audit, bezpečnostní standardy, hodnocení bezpečnosti.}{PV080, PV157, PV017}
+
+\subsection*{11. Analýza a řízení rizik -- stručněji}
+Řízení rizik je proces, kterým organizace zjistí, co má hodnotu, co tomu hrozí, kde jsou slabiny, jaký by byl dopad a jaká opatření dávají smysl. Nejlepší základní řetězec je: aktivum -- hrozba -- zranitelnost -- dopad -- riziko -- opatření -- zbytkové riziko.
+
+\textbf{1. Aktiva a hrozby}
+\begin{itemize}
+  \item Asset management znamená vědět, jaká aktiva organizace má, kdo je vlastní, kde jsou, jak jsou důležitá a na čem závisí.
+  \item Hrozba je potenciální příčina škody: phishing, ransomware, chyba administrátora, výpadek elektřiny, požár, insider, selhání dodavatele nebo zranitelnost v aplikaci.
+  \item Zranitelnost je slabina, kterou může hrozba využít: chybějící MFA, neaktualizovaný server, slabé heslo, špatná segmentace nebo nedokumentovaný proces obnovy.
+\end{itemize}
+
+\textbf{2. Kvalitativní a kvantitativní analýza}
+\begin{itemize}
+  \item Kvalitativní analýza používá škály, například nízké, střední, vysoké riziko. Je rychlá a vhodná pro rozhodování, když nejsou přesná čísla.
+  \item Kvantitativní analýza se snaží počítat peníze nebo četnosti, například pravděpodobnost výpadku a očekávanou roční ztrátu. Je přesnější, ale náročná na data.
+  \item Prakticky je důležité umět vysvětlit, že riziko je kombinace pravděpodobnosti a dopadu, ne jen "něco špatného".
+\end{itemize}
+
+\textbf{3. Opatření}
+\begin{itemize}
+  \item Riziko lze snížit, vyhnout se mu, přenést ho nebo přijmout. Opatření mohou být technická, organizační, personální nebo fyzická.
+  \item Účinnost opatření se hodnotí podle toho, zda snižuje pravděpodobnost, dopad nebo obojí. MFA snižuje pravděpodobnost kompromitace účtu; zálohy snižují dopad ransomwaru.
+  \item Po opatřeních zůstává zbytkové riziko. To musí někdo vědomě přijmout, typicky vedení nebo vlastník rizika.
+\end{itemize}
+
+\textbf{4. Identity, privilegia a audit}
+\begin{itemize}
+  \item IAM řeší životní cyklus identit: vznik účtu, změny rolí, odebrání práv, recertifikaci a logování. Nejcitlivější jsou privilegované účty.
+  \item ACL říká, kdo má jaká práva ke konkrétnímu objektu. U velké organizace je lepší řídit práva přes role a pravidelně je kontrolovat.
+  \item Audit nezavádí bezpečnost za organizaci, ale ověřuje, zda pravidla a opatření fungují. Interní auditor zná prostředí, externí přináší nezávislost.
+\end{itemize}
+
+\textbf{5. Standardy a hodnocení}
+\begin{itemize}
+  \item Standardy jako ISO/IEC 27001, ISO/IEC 27002 nebo NIST dávají rámec, jak bezpečnost řídit a jaká opatření zvažovat.
+  \item Hodnocení bezpečnosti není jednorázové. Bezpečnost se mění s novými aktivy, hrozbami, dodavateli, lidmi a incidenty.
+\end{itemize}
 
 \itbox{\textbf{Jak tuhle otázku říct u státnic:} nejdřív ukážu logiku \textbf{aktivum -> hrozba -> zranitelnost -> dopad -> riziko -> opatření -> zbytkové riziko}. Potom vysvětlím, jak se rizika snižují, jak do toho patří identity a přístupy, proč jsou privilegované účty nejcitlivější a jak se bezpečnost ověřuje auditem, standardy a hodnocením.}
 
@@ -3491,6 +3838,41 @@ Text je zpracován podle přiložených materiálů k analýze a řízení rizik
 \newpage
 
 \otazka{12. Bezpečnostní architektura}{Bezpečnost sítí, izolace a segmentace sítí, firewally. Monitoring, detekce a logování. Bezpečnost operačních systémů, bezpečnost dat.}{PB156, PB156cv, PV004, PV175}
+
+\subsection*{12. Bezpečnostní architektura -- stručněji}
+Bezpečnostní architektura je návrh, jak se bezpečnost promítne do sítí, systémů, dat, monitoringu a provozu. Nejde o jeden firewall, ale o vrstvenou obranu: prevence, detekce, reakce a obnova.
+
+\textbf{1. Bezpečnost sítí}
+\begin{itemize}
+  \item Segmentace rozděluje síť na zóny podle citlivosti a funkce. Cílem je, aby průnik do jedné části neznamenal volný pohyb všude.
+  \item Izolace je silnější oddělení, například oddělená síť pro správu, DMZ pro veřejné služby nebo oddělení produkce a testu.
+  \item Firewall filtruje provoz podle pravidel. Může být síťový, aplikační nebo host-based. Důležité je vědět, že firewall nenahradí správu identit, patching ani monitoring.
+\end{itemize}
+
+\textbf{2. Monitoring, detekce a logování}
+\begin{itemize}
+  \item Logování zaznamenává události, monitoring sleduje stav a metriky, detekce hledá podezřelé chování. Společně umožňují zjistit incident a rekonstruovat, co se stalo.
+  \item SIEM sbírá a koreluje logy. IDS/IPS hledá podezřelý provoz, EDR sleduje koncové stanice a servery.
+  \item Logy musí mít časovou synchronizaci, integritu, přiměřenou retenci a omezený přístup. Bez dobrých logů se incident vyšetřuje naslepo.
+\end{itemize}
+
+\textbf{3. Bezpečnost OS}
+\begin{itemize}
+  \item Bezpečný OS znamená aktualizace, hardening, omezení služeb, řízení účtů, nejmenší oprávnění, bezpečnou konfiguraci a audit.
+  \item Důležitá je separace uživatelů a procesů, práva k souborům, ochrana kernelu, bezpečný boot, řízení služeb a kontrola privilegovaných operací.
+\end{itemize}
+
+\textbf{4. Bezpečnost dat}
+\begin{itemize}
+  \item Data je potřeba chránit v klidu, při přenosu i při zpracování. Používá se šifrování disků, TLS, řízení přístupu, klasifikace, DLP, zálohy a mazání podle retence.
+  \item Zálohy jsou bezpečnostní opatření pro dostupnost a obnovu, ale musí být testované, oddělené a chráněné proti smazání útočníkem.
+\end{itemize}
+
+\textbf{5. Architektonická pointa}
+\begin{itemize}
+  \item Dobrá architektura počítá s tím, že některé opatření selže. Proto kombinuje více vrstev: MFA, segmentaci, patching, EDR, logy, zálohy, incident response a pravidelné testování.
+  \item Praktický příklad: ransomware se má zastavit na phishingové ochraně nebo EDR, nemá se rozšířit kvůli segmentaci, má být vidět v logách a škodu mají omezit offline zálohy.
+\end{itemize}
 
 Bezpečnost sítí, \textbf{izolace} a \textbf{segmentace} sítí, firewally. Monitoring, detekce a logování. Bezpečnost operačních systémů, bezpečnost dat.
 
