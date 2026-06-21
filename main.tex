@@ -2042,9 +2042,87 @@ Materiál vytvořen jako souvislé opakování k otázce 7 podle dodaného PDF a
 
 \otazka{8. Softwarové a informační systémy}{Vývoj a provoz softwarových systémů. Použití UML při vývoji software. Aplikované informační systémy. Architektury rozsáhlých informačních systémů. Metody vedení rozsáhlých projektů. Řízení provozu IS.}{PB007, PV028}
 
-projektů a řízení provozu IS
-
 \itbox{\textbf{Cíl odpovědi:} ukázat, že informační systém není jen program, ale celek lidí, dat, procesů, hardwaru a softwaru. U státnic je dobré postupovat od životního cyklu a požadavků přes modelování a testování až k architektuře, projektovému řízení a provozu. Praktická pointa je, že systém musí být nejen vyvinut, ale také provozován, udržován, měněn, monitorován a smluvně zajištěn.}
+
+\subsection*{8. Softwarové a informační systémy -- stručněji}
+Tuhle kratší verzi lze použít, když je potřeba odpovědět rychle a přehledně. Nejde o seznam hesel, ale o osnovu, podle které se dá mluvit v logickém pořadí: nejdřív vymezit systém, potom vývoj, požadavky, modelování, testování, architekturu, projektové řízení a provoz.
+
+\textbf{1. Co je software a informační systém}
+\begin{itemize}
+  \item \textbf{Software} je programové vybavení, tedy aplikace, knihovny, služby a komponenty, které vykonávají určitou činnost.
+  \item \textbf{Informační systém} je širší celek: lidé, data, procesy, software, hardware a pravidla, které společně sbírají, zpracovávají, ukládají a poskytují informace pro řízení organizace.
+  \item Důležitá věta ke zkoušce: informační systém není jen aplikace v počítači. Například nemocniční IS zahrnuje software, databázi pacientů, role lékařů a sester, laboratorní procesy, napojení na pojišťovny, pravidla přístupu a provozní podporu.
+  \item \textbf{Aplikovaný IS} je systém zasazený do konkrétní domény, například zdravotnictví, banka, sklad, univerzita, veřejná správa nebo environmentální reporting. Klíčové je rozumět procesu organizace, ne jen napsat obrazovky.
+\end{itemize}
+
+\textbf{2. Vývojový životní cyklus: co jde po sobě}
+\begin{itemize}
+  \item Nejjednodušší pořadí je: \textbf{požadavky -- analýza -- návrh -- implementace -- testování -- nasazení -- provoz -- údržba}.
+  \item V požadavcích se zjišťuje, co zákazník skutečně potřebuje. Častá chyba nastává už tady: zákazník řekne "chci rychlý systém", ale není určeno, co znamená rychlý, kolik uživatelů bude pracovat najednou a jaká odezva je přijatelná.
+  \item V analýze se popíše problém, aktéři, procesy, data a hranice systému. V návrhu se rozhodne architektura, databáze, rozhraní, bezpečnost, komponenty a nasazení. Implementace je samotné programování.
+  \item Testování ověřuje, zda systém funguje podle požadavků. Nasazení převádí systém do produkce. Provoz a údržba řeší incidenty, změny, nové požadavky, aktualizace, monitoring a podporu uživatelů.
+  \item Praktická pointa: chyba je tím dražší, čím později se najde. Chyba v požadavku objevená až po nasazení může znamenat předělání architektury, databáze, obrazovek i smluvních akceptací.
+\end{itemize}
+
+\textbf{3. Požadavky: funkční, nefunkční, validace a verifikace}
+\begin{itemize}
+  \item \textbf{Funkční požadavky} říkají, co má systém dělat: přihlášení uživatele, vystavení faktury, zadání diagnózy, vytvoření objednávky, export dat nebo schválení žádosti.
+  \item \textbf{Nefunkční požadavky} říkají, jak kvalitně to má dělat: dostupnost 99,9 \%, odezva do dvou sekund, šifrování dat, auditní logy, škálovatelnost, použitelnost, legislativní soulad nebo provoz 24/7.
+  \item Velké problémy často nevznikají na funkcích, ale na nefunkčních požadavcích: systém sice umí vytvořit objednávku, ale nezvládne tisíc objednávek za minutu, nemá auditní stopu nebo nejde obnovit po výpadku.
+  \item \textbf{Validace} znamená: děláme správný produkt pro uživatele? \textbf{Verifikace} znamená: děláme produkt správně podle specifikace?
+  \item Příklad: pokud specifikace říká deset kroků pro příjem pacienta a systém je přesně splní, verifikace může být úspěšná. Pokud ale lékař kvůli tomu nestíhá reálný provoz, selhává validace.
+\end{itemize}
+
+\textbf{4. UML: proč, kdy a jaký diagram říct}
+\begin{itemize}
+  \item \textbf{UML} je standardizovaný grafický jazyk pro modelování systému. Smyslem není kreslit obrázky pro obrázky, ale domluvit se mezi zákazníkem, analytikem, vývojářem, testerem a provozem.
+  \item \textbf{Use-case diagram} použiju na začátku pro požadavky: ukáže aktéry, hranice systému a případy užití. Příklad: pacient, lékař, sestra a pojišťovna; use-casy příjem pacienta, zadání vyšetření, import výsledků, vykázání péče.
+  \item \textbf{Class diagram} ukáže strukturu domény nebo návrhu: třídy, atributy, vztahy, dědičnost, agregaci a kompozici. Příklad: Pacient, Vyšetření, Lékař, Oddělení.
+  \item \textbf{Sequence diagram} ukáže komunikaci v čase. Hodí se pro přihlášení, platbu, objednávku nebo volání mezi mikroslužbami.
+  \item \textbf{Activity diagram} ukáže proces nebo workflow, například schválení žádosti nebo průchod pacienta nemocnicí.
+  \item \textbf{Deployment diagram} ukáže, kde co běží: klient, web server, aplikační server, databáze, message broker, cloud nebo on-premise infrastruktura.
+  \item ER diagram není UML v užším smyslu, ale je důležitý pro databázový návrh: entity, atributy, vztahy, primární a cizí klíče.
+\end{itemize}
+
+\textbf{5. Testování a údržba}
+\begin{itemize}
+  \item Testování prokazuje přítomnost chyb, ne jejich nepřítomnost. Proto ani otestovaný systém není automaticky bezchybný.
+  \item \textbf{Unit testy} ověřují malé části kódu. \textbf{Integrační testy} ověřují spolupráci komponent. \textbf{Systémové testy} testují systém jako celek. \textbf{Akceptační testy} rozhodují, zda zákazník může systém převzít.
+  \item \textbf{Regresní testy} hlídají, že nová změna nerozbila staré funkce. To je zásadní u dlouho provozovaných IS.
+  \item Když uživatel hlásí chybu, vývojář potřebuje kroky reprodukce, očekávané a skutečné chování, čas, prostředí, roli uživatele, vstupní data, screenshot nebo log a závažnost.
+  \item Údržba není jen oprava bugů. Patří sem \textbf{corrective} údržba (opravy), \textbf{adaptive} údržba (nové prostředí, OS, legislativa), \textbf{perfective/evolutionary} údržba (nové funkce) a \textbf{preventive} údržba (refaktoring, snížení technického dluhu).
+\end{itemize}
+
+\textbf{6. Architektury rozsáhlých IS}
+\begin{itemize}
+  \item Základní odpověď je \textbf{třívrstvá architektura}: prezentační vrstva, aplikační vrstva a databázová vrstva. Oddělení vrstev zvyšuje přehlednost, udržovatelnost a možnost škálovat části samostatně.
+  \item \textbf{MVC} je vzor pro organizaci aplikace: Model drží data a logiku, View zobrazuje, Controller zpracuje vstup a řídí tok. Třívrstvá architektura řeší rozdělení systému, MVC organizaci kódu.
+  \item \textbf{Monolit} je jeden větší celek. Je jednodušší na vývoj a provoz, ale hůř se škáluje a mění, pokud je špatně modularizovaný.
+  \item \textbf{SOA a mikroslužby} rozdělují systém na služby s jasnými rozhraními. Výhodou je nezávislé nasazování a škálování, nevýhodou složitější provoz, monitoring, síťová komunikace a konzistence dat.
+  \item Škálování může být \textbf{vertikální} (silnější server) nebo \textbf{horizontální} (více instancí za load balancerem). U moderních IS se často používají kontejnery, Kubernetes, cloud, cache, replikace databáze a message brokery.
+  \item Praktická věta: mikroslužby nejsou automaticky lepší než monolit. Dávají smysl až tehdy, když organizace zvládne jejich provozní složitost.
+\end{itemize}
+
+\textbf{7. Metody vedení rozsáhlých projektů}
+\begin{itemize}
+  \item \textbf{Vodopád} postupuje po fázích a hodí se, když jsou požadavky stabilní a je potřeba formální dokumentace. Nevýhoda je nízká pružnost při změnách.
+  \item \textbf{Iterativní a inkrementální vývoj} dodává systém po částech. Iterace je opakovaný cyklus práce, inkrement je konkrétní nový přírůstek funkcionality.
+  \item \textbf{Agile/Scrum} používá krátké sprinty, backlog, review a retrospektivu. Product Owner hlídá hodnotu a priority, Scrum Master proces a tým dodává přírůstky.
+  \item \textbf{DevOps} propojuje vývoj a provoz. Důležité pojmy: CI/CD pipeline, automatické testy, automatizované nasazení, monitoring, rollback a společná odpovědnost za službu.
+  \item U velkého projektu je nutné řídit rozsah, rizika, komunikaci, rozpočet, termíny, změny, kvalitu a dodavatele. Používá se WBS, Ganttův diagram, PERT, kritická cesta, milníky, akceptace a změnové řízení.
+  \item Změnové řízení je prakticky klíčové: nový požadavek se zapíše, posoudí se dopad na cenu, čas, rizika, architekturu a provoz, schválí se a teprve pak implementuje.
+\end{itemize}
+
+\textbf{8. Řízení provozu IS}
+\begin{itemize}
+  \item Nasazením systém nekončí. V provozu se řeší dostupnost, incidenty, změny, monitoring, logy, zálohy, obnova, dokumentace, kapacita, bezpečnost a podpora uživatelů.
+  \item \textbf{SLA} stanoví dohodnutou kvalitu služby: servisní hodiny, reakční dobu, dobu opravy, kategorie incidentů, dostupnost, cenu a případné sankce.
+  \item \textbf{Incident management} má co nejrychleji obnovit službu. \textbf{Problem management} hledá kořenovou příčinu, aby se incident neopakoval. \textbf{Change management} řídí změny v produkci.
+  \item \textbf{RTO} říká, za jak dlouho má být služba obnovena. \textbf{RPO} říká, kolik dat si organizace může maximálně dovolit ztratit, tedy jak stará smí být použitelná záloha.
+  \item Zálohy nestačí jen vytvářet; musí se pravidelně testovat obnova. Bez dokumentace se systém stává závislý na konkrétních lidech.
+\end{itemize}
+
+\textbf{Krátká odpověď na konec:} Softwarový a informační systém je dlouhodobý socio-technický celek. Musím umět zjistit požadavky, rozlišit funkční a nefunkční vlastnosti, namodelovat systém, otestovat ho, zvolit architekturu, řídit projekt a hlavně zajistit provoz a údržbu. Úspěch IS se nepozná jen podle toho, že byl naprogramován, ale podle toho, že dlouhodobě podporuje procesy organizace, je dostupný, bezpečný, udržovatelný a rozumně rozšiřitelný.
 
 \subsection*{Základní vymezení: software, informační systém a aplikovaný IS}
 
