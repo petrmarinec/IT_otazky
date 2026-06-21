@@ -684,12 +684,17 @@ Když se zeptá, co je ovladač, odpověď je: systémový software pro komunika
 \otazka{3. Souborové systémy}{Blokové zařízení, bloková vrstva, I/O plánovač, RAID, šifrování disku. Obyčejné soubory, alokace volného místa, fragmentace. Adresářová struktura a její reprezentace na disku. Vstup a výstup mapovaný do paměti.}{PB152, PV004}
 
 \subsection*{Co je souborový systém}
-Souborový systém je způsob organizace dat na úložišti a zároveň vrstva operačního systému, která tato data zpřístupňuje. Dá se na něj dívat ze dvou úhlů:
+Souborový systém je \textbf{abstrakce nad paměťovým médiem nebo blokovým zařízením}, která z obyčejných očíslovaných bloků dělá pojmenované soubory, adresáře a metadata. Je to zároveň soubor pravidel a datových struktur, podle kterých operační systém ví, kde soubor začíná, z jakých bloků se skládá, kdo k němu smí přistupovat a jak se najde podle cesty typu \texttt{/home/petr/dokument.txt}.
+
+Hlavní myšlenka:
 \begin{itemize}
-  \item \textbf{Z pohledu disku (úložiště)} je souborový systém konkrétní \textbf{datová struktura na blokovém zařízení} -- pravidla a metadata, která určují, jak jsou na fyzických blocích uložené soubory, adresáře, volné místo a informace o nich (například superblok, i-uzly, datové bloky a bitmapy). Samotný disk umí jen číst a zapisovat očíslované bloky; teprve souborový systém jim dává smysl.
-  \item \textbf{Z pohledu operačního systému} je souborový systém \textbf{abstrakce}, která uživateli a programům dává pohodlnou iluzi pojmenovaných souborů uspořádaných ve stromu adresářů, s jednotným rozhraním (open, read, write, close) a s přístupovými právy, i když pod tím leží jen bloky na disku.
+  \item Bez přítomnosti souborového systému by paměťové médium bylo pro operační systém pouze polem surových datových bloků bez vzájemných vazeb a hierarchie.
+  \item Souborový systém těmto blokům přidá význam: řekne, které bloky patří jednomu souboru, které jsou volné, kde jsou adresáře, kde jsou metadata a jak se z lidského jména dostaneme ke skutečným datům.
+  \item Uživatel a programy pak nepracují s čísly bloků, ale s pohodlnou abstrakcí: soubor, adresář, cesta, práva, vlastník, velikost, čas změny a operace typu \texttt{open}, \texttt{read}, \texttt{write}, \texttt{close} nebo \texttt{mmap}.
+  \item Na disku jsou kvůli tomu uložené konkrétní struktury, například superblok, i-uzly nebo MFT/FAT tabulky, adresářové záznamy, datové bloky, bitmapy volného místa a extenty.
+  \item Souborový systém tedy řeší pojmenování a hierarchii souborů, alokaci volného místa, metadata, přístupová práva, konzistenci po pádu, výkon a spolupráci s blokovou vrstvou operačního systému.
 \end{itemize}
-Zjednodušeně: na disku je souborový systém \emph{formát a metadata}, v operačním systému \emph{služba a rozhraní}, které z očíslovaných bloků dělají soubory a adresáře. Konkrétními souborovými systémy jsou například FAT, ext4 nebo NTFS.
+Zjednodušeně řečeno: disk sám umí jen číst a zapisovat bloky; souborový systém z nich udělá strom adresářů a souborů, kterému rozumí operační systém i člověk. Konkrétními souborovými systémy jsou například FAT, ext4 nebo NTFS.
 
 \subsection*{3. Souborové systémy}
 
