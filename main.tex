@@ -71,6 +71,15 @@
   innertopmargin=6pt, innerbottommargin=6pt
 ]{beigebox}
 
+\newmdenv[
+  backgroundcolor=green!7,
+  linecolor=green!40!black,
+  linewidth=0.6pt,
+  skipabove=8pt, skipbelow=8pt,
+  innerleftmargin=8pt, innerrightmargin=8pt,
+  innertopmargin=6pt, innerbottommargin=6pt
+]{greenbox}
+
 \title{IT státnice: okruhy 1--12\\\large Rozšířené opakovací poznámky k odborným otázkám}
 \author{Petr Mařinec}
 \date{Aktualizováno \today}
@@ -2285,6 +2294,28 @@ Materiál vytvořen jako souvislé opakování k otázce 7 podle dodaného PDF a
 \otazka{8. Softwarové a informační systémy}{Vývoj a provoz softwarových systémů. Použití UML při vývoji software. Aplikované informační systémy. Architektury rozsáhlých informačních systémů. Metody vedení rozsáhlých projektů. Řízení provozu IS.}{PB007, PV028}
 
 \itbox{\textbf{Cíl odpovědi:} ukázat, že informační systém není jen program, ale celek lidí, dat, procesů, hardwaru a softwaru. U státnic je dobré postupovat od životního cyklu a požadavků přes modelování a testování až k architektuře, projektovému řízení a provozu. Praktická pointa je, že systém musí být nejen vyvinut, ale také provozován, udržován, měněn, monitorován a smluvně zajištěn.}
+
+\begin{greenbox}
+\textbf{Modelová odpověď podle komise: aplikovaný informační systém, architektura, projekt a provoz}
+
+Kdybych dostal otázku na softwarové a informační systémy a chtěl odpovědět co nejpraktičtěji, začal bych pojmem \textbf{aplikovaný informační systém}. AIS není jedna malá aplikace, ale \textbf{soubor aplikací, databází, uživatelů, rolí, workflow a integračních vazeb}, který umožňuje více lidem v organizaci pracovat nad společnými daty. Typicky jde o webový nebo klient-server systém: uživatel pracuje v prohlížeči nebo klientské aplikaci, aplikační server provádí business logiku a databázová vrstva drží sdílená data. Pointa je, že AIS podporuje reálný proces organizace, například léčbu pacienta, vyřízení žádosti, prodej zboží, skladové hospodářství nebo úřední řízení.
+
+\textbf{Data a databáze.} Data jsou obvykle uložena v databázích, protože více uživatelů musí pracovat nad stejnými záznamy konzistentně a současně. Relační databáze, například PostgreSQL, Oracle nebo MySQL, ukládá data do tabulek a vztahů: pacient, vyšetření, lékař, hospitalizace; zákazník, objednávka, položka, faktura. Dokumentové nebo NoSQL databáze se hodí pro pružnější struktury, logy, dokumenty nebo velké objemy méně relačních dat. U zkoušky stačí říct, že databáze neřeší jen "uložení", ale také transakce, integritu, současný přístup více uživatelů, oprávnění, zálohy a obnovu.
+
+\textbf{Příklad: AIS ve zdravotnictví.} Nemocniční informační systém není jen seznam pacientů. V nemocnici, například typu fakultní nemocnice, systém podporuje příjem pacienta, ambulantní návštěvy, hospitalizaci, diagnózy, žádanky na laboratorní vyšetření, výsledky laboratoří, obrazovou dokumentaci, medikaci, operační plán, výkazy pro pojišťovny, statistiky a administraci. Lékař, sestra, laboratoř, administrátor a pojišťovna mají jiné role a jiná oprávnění, ale pracují nad propojenými daty. Když se změní postup na oddělení, není to jen změna jedné obrazovky; může to ovlivnit workflow, databázi, oprávnění, integrace a reporty.
+
+\textbf{Příklad: AIS ve veřejné správě.} Veřejnosprávní AIS přijímá žádosti, vede spis, podporuje práci úředníka a končí rozhodnutím, vyrozuměním nebo zápisem do registru. Prakticky: občan pošle žádost datovou schránkou, e-mailem s uznávaným podpisem nebo přes portál. \textbf{Spisová služba} žádost zaeviduje, přidělí číslo jednací nebo spisovou značku a dokument se spojí s konkrétním řízením až do vyřízení. Úředník může ověřovat údaje v základních registrech, katastru nemovitostí nebo jiných agendových systémech. Výstupem je rozhodnutí, výzva, potvrzení nebo jiný úřední dokument, který se doručí zpět, často datovou schránkou. Tady je dobře vidět, že AIS propojuje dokumenty, data, workflow, právní pravidla a integrace.
+
+\textbf{Příklad: e-shop a sklad.} E-shop není jen katalog produktů. Je propojený se skladem, platbami, dopravci, fakturací, CRM, reklamačním procesem a účetnictvím. Když zákazník objedná zboží, systém zarezervuje skladovou zásobu, založí objednávku, předá platbu platební bráně, vytvoří doklad, pošle data dopravci a aktualizuje stav objednávky. Pokud selže integrace se skladem, web může prodávat zboží, které už fyzicky není. To je typická ukázka, proč AIS musí řešit procesy a integrace, ne jen programování formulářů.
+
+\textbf{Architektura: třívrstvá aplikace a MVC.} Nejjednodušší architektonická odpověď je třívrstvá architektura. \textbf{Prezentační vrstva} je uživatelské rozhraní, na webu typicky HTML, CSS a frontendová logika. \textbf{Aplikační vrstva} obsahuje business logiku: validace, workflow, výpočty, pravidla, oprávnění, integrace a API. \textbf{Databázová vrstva} spravuje data, transakce, dotazy, indexy a integritní omezení. MVC je vzor uvnitř aplikace: Model drží data a pravidla, View zobrazuje, Controller zpracuje požadavek a řídí tok. Třívrstvá architektura tedy říká, kde systém běží a jak je rozdělený; MVC říká, jak je organizovaný kód aplikace.
+
+\textbf{SOA, služby a kontejnery.} U rozsáhlejších systémů se monolit často rozděluje na služby. \textbf{SOA} chápe systém jako soubor softwarových komponent/služeb, které spolupracují přes rozhraní podobně jako služby v reálném světě: mapová služba, platební služba, identitní služba, notifikační služba. Mikroslužby jsou jemnější varianta: menší služby, samostatné nasazení, vlastní odpovědnost a často vlastní databáze. Výhody jsou nezávislé nasazování a škálování; nevýhody jsou složitější provoz, monitoring, síťová komunikace, verzování API a konzistence dat. Docker balí aplikaci se závislostmi do kontejneru, Kubernetes kontejnery nasazuje, restartuje, škáluje a vyvažuje provoz. Je dobré říct, že kontejnery nejsou architektura samy o sobě; jsou provozní technologie pro balení a nasazování.
+
+\textbf{Vývoj a řízení projektu.} Vývoj AIS nejde dělat jen tak, že "programátor začne psát". Nejdřív se sbírají požadavky: funkční, tedy co má systém dělat, a nefunkční, tedy v jaké kvalitě to má dělat. Potom se analyzují procesy, data, role, integrace a rizika. UML se hodí jako komunikační jazyk: use-case diagram ukáže aktéry a případy užití, activity diagram workflow, class diagram doménové objekty, sequence diagram komunikaci v čase a deployment diagram nasazení. Pro vedení větších projektů je dobré zmínit \textbf{UP/RUP} a \textbf{Scrum}. UP/RUP je iterativní, řízený riziky, případy užití a architekturou; Scrum pracuje se sprinty, backlogem, Product Ownerem, Scrum Masterem, review a retrospektivou. Praktická věta: velký AIS často kombinuje formálnější řízení projektu s iterativním vývojem, protože organizace potřebuje kontrolu, ale zároveň se požadavky zpřesňují postupně.
+
+\textbf{Provoz IS a SLA.} Nasazením projekt nekončí. AIS musí běžet, být podporovaný, zálohovaný, monitorovaný a měněný. Řízení provozu znamená helpdesk, incident management, change management, monitoring, logy, zálohy, obnovu, dokumentaci, správu kapacity a bezpečnost. \textbf{SLA} stanoví kvalitu služby: servisní hodiny, reakční dobu, dobu opravy, dostupnost, kategorie incidentů, komunikační kanál a sankce. Kritický výpadek nemocničního systému v režimu 24/7 je něco jiného než drobná chyba v interním reportu, která se řeší další pracovní den. U zkoušky se dá zakončit takto: dobrý AIS se pozná až v provozu podle toho, jestli dlouhodobě podporuje proces organizace, drží společná data konzistentní, má jasné role, zvládá změny a má smluvně i technicky zajištěnou podporu.
+\end{greenbox}
 
 \subsection*{8. Softwarové a informační systémy -- stručněji}
 Tuhle kratší verzi lze použít, když je potřeba odpovědět rychle a přehledně. Nejde o seznam hesel, ale o osnovu, podle které se dá mluvit v logickém pořadí: nejdřív vymezit systém, potom vývoj, požadavky, modelování, testování, architekturu, projektové řízení a provoz.
